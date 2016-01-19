@@ -1,0 +1,348 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="es.cv.gvcase.trmanager" xmlns="http://www.w3.org/2001/XMLSchema">
+<annotation>
+      <appInfo>
+         <meta.schema plugin="es.cv.gvcase.trmanager" id="transformation" name="es.cv.gvcase.trmanager.transformation"/>
+      </appInfo>
+      <documentation>
+         This extension point registers transformations that convert resources in other resources. EMF models, Eclipse projects, files or folders can be used as input or output resources. Any technology can be used to implement the transformation.
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <annotation>
+         <appInfo>
+            <meta.element />
+         </appInfo>
+      </annotation>
+      <complexType>
+         <sequence>
+            <element ref="transformation" minOccurs="1" maxOccurs="unbounded"/>
+         </sequence>
+         <attribute name="point" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appInfo>
+                  <meta.attribute translatable="true"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="transformation">
+      <annotation>
+         <appInfo>
+            <meta.element labelAttribute="name"/>
+         </appInfo>
+      </annotation>
+      <complexType>
+         <choice>
+            <sequence>
+               <element ref="inputResources"/>
+            </sequence>
+            <sequence>
+               <element ref="outputResources"/>
+            </sequence>
+            <sequence>
+               <element ref="fileExtensions"/>
+            </sequence>
+         </choice>
+         <attribute name="trId" type="string" use="required">
+            <annotation>
+               <documentation>
+                  An identifier of the kind of transformation that this transformation implements. For instance several transformations could provide a UML2 to Database transformation following different approaches. Then, bot ot them must specify the same identifier in this property (e.g. &quot;&lt;code&gt;UML2DB&lt;/code&gt;&quot;)
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string" use="required">
+            <annotation>
+               <documentation>
+                  A unique identifier for a transformation.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="priority" use="default" value="5">
+            <annotation>
+               <documentation>
+                  When more than one transformation implement the same kind of transformation, the priority property is used to select the one to be executed.
+               </documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <enumeration value="1">
+                  </enumeration>
+                  <enumeration value="2">
+                  </enumeration>
+                  <enumeration value="3">
+                  </enumeration>
+                  <enumeration value="4">
+                  </enumeration>
+                  <enumeration value="5">
+                  </enumeration>
+                  <enumeration value="6">
+                  </enumeration>
+                  <enumeration value="7">
+                  </enumeration>
+                  <enumeration value="8">
+                  </enumeration>
+                  <enumeration value="9">
+                  </enumeration>
+                  <enumeration value="10">
+                  </enumeration>
+               </restriction>
+            </simpleType>
+         </attribute>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  A human readable description of the transformation funtionality.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="class" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The class which actually implements the transformation. It must extend the &lt;code&gt;es.cv.gvcase.trmanager.Transformation&lt;/code&gt; class.
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java" basedOn="es.cv.gvcase.trmanager.Transformation:"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+         <attribute name="package" type="string">
+            <annotation>
+               <documentation>
+                  Transformation can be structured using packages. The criteria to group transformation into pacakges is user defined. Subpackages can be specified using an slash as a separator (e.g. &quot;&lt;code&gt;MOSKitt/DB2DDL&lt;/code&gt;&quot;).
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="configInitializer" type="string">
+            <annotation>
+               <documentation>
+                  The class which initializes transformation configurations. It must extend the &lt;code&gt;es.cv.gvcase.trmanager.Transformation&lt;/code&gt; class.
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java" basedOn="es.cv.gvcase.trmanager.Transformation:"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+         <attribute name="defaultConfig" type="boolean">
+            <annotation>
+               <documentation>
+                  Transformation can be executed with or without default configuration
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="userAvailable" type="boolean" use="required">
+            <annotation>
+               <documentation>
+                  The transformation will be available for the user from the Transformations View and via context menu of the resource file.
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="resource">
+      <annotation>
+         <appInfo>
+            <meta.element labelAttribute="name"/>
+         </appInfo>
+         <documentation>
+            A resource to be used as input or to be produced by the transformation.
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  A descriptive identifier of the resource.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="type" use="required">
+            <annotation>
+               <documentation>
+                  The type of resource, which must be one of &lt;code&gt;MODEL&lt;/code&gt;, &lt;code&gt;FOLDER&lt;/code&gt;, &lt;code&gt;PROJECT&lt;/code&gt;, &lt;code&gt;FILE&lt;/code&gt;, &lt;code&gt;MODEL_ELEMENT&lt;/code&gt;.
+               </documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <enumeration value="MODEL">
+                  </enumeration>
+                  <enumeration value="MODEL_ELEMENT">
+                  </enumeration>
+                  <enumeration value="FOLDER">
+                  </enumeration>
+                  <enumeration value="PROJECT">
+                  </enumeration>
+                  <enumeration value="FILE">
+                  </enumeration>
+               </restriction>
+            </simpleType>
+         </attribute>
+         <attribute name="projectNature" type="string">
+            <annotation>
+               <documentation>
+                  In case the type of resource is &lt;code&gt;PROJECT&lt;/code&gt;, this property specifies the nature of the projects to which this transformation can be applied (e.g. &lt;code&gt;org.eclipse.jdt.core.javanature&lt;/code&gt;).
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="metamodelURI" type="string">
+            <annotation>
+               <documentation>
+                  In case the type of resource is &lt;code&gt;MODEL&lt;/code&gt; or &lt;code&gt;MODEL_ELEMENT&lt;/code&gt;, this property specifies the URI of the metamodel to which the model must conform (e.g. &lt;code&gt;http://www.eclipse.org/uml2/2.1.0/UML&lt;/code&gt;).
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="updatable" type="boolean" use="default" value="false">
+            <annotation>
+               <documentation>
+                  In input resources, it specifies if the resource must be updated, instead of generating a new resource.
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="inputResources">
+      <annotation>
+         <documentation>
+            The list of the resources that are used as input by the transformation.
+         </documentation>
+      </annotation>
+      <complexType>
+         <sequence minOccurs="1" maxOccurs="unbounded">
+            <element ref="resource"/>
+         </sequence>
+      </complexType>
+   </element>
+
+   <element name="outputResources">
+      <annotation>
+         <documentation>
+            The list of the resources that are produced as output by the transformation.
+         </documentation>
+      </annotation>
+      <complexType>
+         <sequence minOccurs="1" maxOccurs="unbounded">
+            <element ref="resource"/>
+         </sequence>
+      </complexType>
+   </element>
+
+   <element name="fileExtensions">
+      <annotation>
+         <documentation>
+            A list of file extensions to which this transformation can be applied.
+         </documentation>
+      </annotation>
+      <complexType>
+         <sequence minOccurs="0" maxOccurs="unbounded">
+            <element ref="fileExtension"/>
+         </sequence>
+      </complexType>
+   </element>
+
+   <element name="fileExtension">
+      <complexType>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  A file extension to which this transformation  can be applied (e.g. &lt;code&gt;uml&lt;/code&gt;)
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="since"/>
+      </appInfo>
+      <documentation>
+         [Enter the first release in which this extension point appears.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="examples"/>
+      </appInfo>
+      <documentation>
+         Following is an example of a transformation that takes as input a UML2 file which is converted into a SQL model which conforms to the metamodel that is porivded by the DataTools project:   
+&lt;p&gt;
+   &lt;pre&gt;
+ &lt;extension
+        point=&quot;es.cv.gvcase.trmanager.transformation&quot;&gt;
+      &lt;transformation
+            class=&quot;es.cv.gvcase.linker.uml2db.transf.UML2DBTransformation&quot;
+            id=&quot;es.cv.gvcase.linkers.uml2db.transf.transformation&quot;
+            name=&quot;UML2 to Database transformation&quot;
+            package=&quot;MOSKitt/UML2DB&quot;
+            priority=&quot;5&quot;
+            trId=&quot;es.cv.gvcase.linkers.uml2db.transf.Transformation&quot;&gt;
+         &lt;inputResources&gt;
+            &lt;resource
+                  metamodelURI=&quot;http://www.eclipse.org/uml2/2.1.0/UML&quot;
+                  name=&quot;inputUML2Model&quot;
+                  type=&quot;MODEL&quot;&gt;
+            &lt;/resource&gt;
+         &lt;/inputResources&gt;
+         &lt;outputResources&gt;
+            &lt;resource
+                  metamodelURI=&quot;http:///org/eclipse/datatools/modelbase/sql/schema.ecore&quot;
+                  name=&quot;outputDBModel&quot;
+                  type=&quot;MODEL&quot;&gt;
+            &lt;/resource&gt;
+         &lt;/outputResources&gt;
+         &lt;fileExtensions&gt;
+            &lt;fileExtension
+                  name=&quot;uml&quot;&gt;
+            &lt;/fileExtension&gt;
+         &lt;/fileExtensions&gt;
+      &lt;/transformation&gt;
+ &lt;/extension&gt;
+ &lt;/pre&gt;
+ &lt;/p&gt;
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="apiInfo"/>
+      </appInfo>
+      <documentation>
+         The value of the class attribute in the transformation element must extend &lt;code&gt;es.cv.gvcase.trmanager.Transformation&lt;/code&gt; .
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="implementation"/>
+      </appInfo>
+      <documentation>
+         [Enter information about supplied implementation of this extension point.]
+      </documentation>
+   </annotation>
+
+
+</schema>

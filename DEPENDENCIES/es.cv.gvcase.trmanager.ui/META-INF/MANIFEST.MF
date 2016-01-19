@@ -1,0 +1,24 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: MOSKitt Transformation Manager UI
+Bundle-SymbolicName: es.cv.gvcase.trmanager.ui; singleton:=true
+Bundle-Version: 1.5.0.qualifier
+Bundle-Vendor: gvCASE Project
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.core.resources,
+ org.eclipse.ui,
+ org.eclipse.ui.ide,
+ org.eclipse.emf.ecore.xmi,
+ org.eclipse.emf.edit.ui,
+ es.cv.gvcase.trmanager
+Eclipse-LazyStart: false
+Import-Package: org.eclipse.core.expressions
+Bundle-Activator: es.cv.gvcase.trmanager.ui.TrManagerPlugin
+Bundle-Localization: plugin
+Export-Package: es.cv.gvcase.trmanager.internal.ui.dialogs,
+ es.cv.gvcase.trmanager.ui,
+ es.cv.gvcase.trmanager.ui.pages,
+ es.cv.gvcase.trmanager.ui.views,
+ es.cv.gvcase.trmanager.ui.wizards,
+ es.cv.gvcase.trmanager.ui.wizards.extended
+Bundle-RequiredExecutionEnvironment: J2SE-1.5

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension-point id="additionalTransformationWizardPages" name="additionalTransformationWizardPages" schema="schema/additionalTransformationWizardPages.exsd"/>
+
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            name="%view.name.MOSKittTransformations"
+            icon="icons/trmanager-view.gif"
+            category="es.cv.gvcase.viewcategory"
+            class="es.cv.gvcase.trmanager.ui.views.TransformationsView"
+            id="es.cv.gvcase.trmanager.ui.views.TransformationsView">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="org.eclipse.ui.resourcePerspective">
+         <view
+               ratio="0.5"
+               relative="org.eclipse.ui.views.TaskList"
+               relationship="right"
+               id="es.cv.gvcase.trmanager.ui.views.TransformationsView">
+         </view>
+      </perspectiveExtension>
+   </extension>
+   
+   <!--extension
+         id="es.cv.gvcase.trmanager.contextualmenu"
+         name="gvCASE Transformations Menu"
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="popup:es.cv.gvcase.ide.navigator.view">
+         <menu
+               id="es.cv.gvcase.trmanager.popupmenu"
+               label="gvCASE Transformations"
+               mnemonic="T">
+            <dynamic
+                  class="es.cv.gvcase.trmanager.ui.internal.DynamicTransformationsMenu"
+                  id="es.cv.gvcase.trmanager.ui.internal.DynamicTransformationsMenu">
+               <visibleWhen
+                     checkEnabled="true">
+               </visibleWhen>
+            </dynamic>
+         </menu>
+      </menuContribution>
+   </extension-->
+   <extension
+         id="es.cv.gvcase.trmanager.transfCommand"
+         name="Transformation Command"
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="es.cv.gvcase.trmanager.internal.commands.TransformationCommand"
+            description="Execute transformation."
+            id="es.cv.gvcase.trmanager.transf"
+            name="Run Transformation">
+         <commandParameter
+               id="es.cv.gvcase.trmanager.transfId"
+               name="Transformation Id">
+         </commandParameter>
+      </command>
+   </extension>
+   <extension
+         id="es.cv.gvcase.trmanager.ui.TrManagerUIStartup"
+         name="TrManagerUI Startup"
+         point="org.eclipse.ui.startup">
+      <startup
+            class="es.cv.gvcase.trmanager.ui.TrManagerUIStartup">
+      </startup>
+   </extension>
+   <!--extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            id="es.cv.gvcase.trmanager.ui.contribution1"
+            nameFilter="*.uml"
+            objectClass="org.eclipse.core.resources.IResource">
+         <menu
+               id="es.cv.gvcase.trmanager.ui.menu1"
+               label="gvCASE Transformations"
+               path="additions">
+            <separator
+                  name="group1">
+            </separator>
+         </menu>
+         <action
+               class="es.cv.gvcase.trmanager.ui.popup.actions.TransformationAction"
+               enablesFor="1"
+               id="es.cv.gvcase.trmanager.ui.newAction"
+               label="Transformation"
+               menubarPath="es.cv.gvcase.trmanager.ui.menu1/group1">
+         </action>
+      </objectContribution>
+   </extension-->
+
+
+</plugin>
