@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: MOSKitt Database Navigator Plug-in
+Bundle-SymbolicName: es.cv.gvcase.mdt.db.navigator;singleton:=true
+Bundle-Version: 1.3.1.qualifier
+Bundle-Activator: es.cv.gvcase.mdt.db.navigator.Activator
+Require-Bundle: es.cv.gvcase.ide.navigator,
+ org.eclipse.datatools.modelbase.sql.editor,
+ es.cv.gvcase.mdt.db.diagram,
+ org.eclipse.gmf.runtime.diagram.ui,
+ org.eclipse.ui.navigator
+Eclipse-LazyStart: true
+Bundle-Vendor: gvCASE Project
+Export-Package: es.cv.gvcase.mdt.db.navigator,
+ es.cv.gvcase.mdt.db.navigator.actions.model,
+ es.cv.gvcase.mdt.db.navigator.decorators,
+ es.cv.gvcase.mdt.db.navigator.filters,
+ es.cv.gvcase.mdt.db.navigator.providers,
+ es.cv.gvcase.mdt.db.navigator.utils
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
