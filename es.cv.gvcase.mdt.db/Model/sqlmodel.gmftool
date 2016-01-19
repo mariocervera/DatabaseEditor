@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gmftool:ToolRegistry xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:gmftool="http://www.eclipse.org/gmf/2005/ToolDefinition">
+  <palette
+      title="sqlmodelPalette">
+    <tools
+        xsi:type="gmftool:ToolGroup"
+        title="Schema Elements"
+        collapsible="true">
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Table"
+          description="Create new Table">
+        <smallIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/sqlicons/table.gif"/>
+      </tools>
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="View"
+          description="Create new View">
+        <smallIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/sqlicons/view.gif"
+            bundle=""/>
+      </tools>
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Column"
+          description="Create new Column">
+        <smallIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/sqlicons/column.gif"/>
+      </tools>
+    </tools>
+    <tools
+        xsi:type="gmftool:ToolGroup"
+        title="Relationships"
+        collapsible="true">
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Foreign Key"
+          description="Create new Foreign Key">
+        <smallIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/sqlicons/event.gif"
+            bundle=""/>
+      </tools>
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Viewed Table"
+          description="Create Viewed Table">
+        <smallIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/sqlicons/viewedTable.gif"/>
+      </tools>
+    </tools>
+  </palette>
+</gmftool:ToolRegistry>

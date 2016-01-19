@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<trace:TraceModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:trace="http://www.eclipse.org/gmf/2006/Trace">
+  <nodeTraces
+      visualID="1001"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http:///org/eclipse/datatools/modelbase/sql/tables.ecore' and _eClass_.name = 'PersistentTable') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http:///org/eclipse/datatools/modelbase/sql/schema.ecore' and _eClass_.name = 'Schema') and _containmentMF_.name = 'tables')">
+    <nodeLabelTraces
+        visualID="4001"
+        queryText="true"/>
+    <compartmentTraces
+        visualID="5001"
+        queryText="true"/>
+  </nodeTraces>
+  <nodeTraces
+      visualID="1002"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http:///org/eclipse/datatools/modelbase/sql/tables.ecore' and _eClass_.name = 'ViewTable') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http:///org/eclipse/datatools/modelbase/sql/schema.ecore' and _eClass_.name = 'Schema') and _containmentMF_.name = 'tables')">
+    <nodeLabelTraces
+        visualID="4002"
+        queryText="true"/>
+    <compartmentTraces
+        visualID="5002"
+        queryText="true"/>
+    <compartmentTraces
+        visualID="5003"
+        queryText="true"/>
+  </nodeTraces>
+  <childNodeTraces
+      visualID="2001"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http:///org/eclipse/datatools/modelbase/sql/tables.ecore' and _eClass_.name = 'Column') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http:///org/eclipse/datatools/modelbase/sql/tables.ecore' and _eClass_.name = 'Table') and _containmentMF_.name = 'columns')"/>
+  <childNodeTraces
+      visualID="2002"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http:///org/eclipse/datatools/modelbase/sql/tables.ecore' and _eClass_.name = 'Column') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http:///org/eclipse/datatools/modelbase/sql/tables.ecore' and _eClass_.name = 'Table') and _containmentMF_.name = 'columns') and ( let _childMF_:ecore::EStructuralFeature = modelFacet.childMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _childMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http:///org/eclipse/datatools/modelbase/sql/tables.ecore' and _eClass_.name = 'ViewTable') and _childMF_.name = 'viewedColumns')"/>
+  <childNodeTraces
+      visualID="2003"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http:///org/eclipse/datatools/modelbase/sql/tables.ecore' and _eClass_.name = 'PersistentTable') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http:///org/eclipse/datatools/modelbase/sql/schema.ecore' and _eClass_.name = 'Schema') and _containmentMF_.name = 'tables') and ( let _childMF_:ecore::EStructuralFeature = modelFacet.childMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _childMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http:///org/eclipse/datatools/modelbase/sql/tables.ecore' and _eClass_.name = 'ViewTable') and _childMF_.name = 'viewedTables')"/>
+  <linkTraces
+      visualID="3001"
+      queryText="modelFacet.oclIsKindOf(gmfgen::TypeLinkModelFacet) and (let _eClass_:ecore::EClass = modelFacet.oclAsType(gmfgen::TypeLinkModelFacet).metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http:///org/eclipse/datatools/modelbase/sql/constraints.ecore' and _eClass_.name = 'ForeignKey')">
+    <linkLabelTraces
+        visualID="4003"
+        queryText="true"/>
+  </linkTraces>
+  <linkTraces
+      visualID="3002"
+      queryText="modelFacet.oclIsKindOf(gmfgen::FeatureLinkModelFacet) and (let _feature_:ecore::EStructuralFeature = modelFacet.oclAsType(gmfgen::FeatureLinkModelFacet).metaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _feature_.eContainingClass in _eClass_.ePackage.nsURI = 'http:///org/eclipse/datatools/modelbase/sql/tables.ecore' and _eClass_.name = 'ViewTable') and _feature_.name = 'viewedTables')"/>
+</trace:TraceModel>
