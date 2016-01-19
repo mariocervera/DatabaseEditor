@@ -1,0 +1,27 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: MOSKitt DDL generator
+Bundle-SymbolicName: es.cv.gvcase.mdt.db.gen;singleton:=true
+Bundle-Version: 1.5.0.qualifier
+Bundle-Vendor: gvCASE Project
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.datatools.connectivity.sqm.core,
+ org.eclipse.datatools.enablement.mysql,
+ org.eclipse.emf.validation,
+ org.eclipse.datatools.modelbase.sql,
+ es.cv.gvcase.trmanager,
+ es.cv.gvcase.launcher.xpand,
+ org.eclipse.xtend,
+ org.eclipse.xtend.typesystem.uml2,
+ org.eclipse.m2m.atl.drivers.emf4atl,
+ org.eclipse.emf.ecore.xmi,
+ org.eclipse.emf.compare.diff,
+ org.eclipse.gmf.runtime.diagram.ui,
+ org.eclipse.uml2.uml,
+ es.cv.gvcase.mdt.common
+Bundle-ClassPath: transf/,
+ .
+Export-Package: es.cv.gvcase.mdt.gen.constraints,
+ es.cv.gvcase.mdt.gen.launchers,
+ es.cv.gvcase.mdt.gen.transf
+Bundle-RequiredExecutionEnvironment: J2SE-1.5

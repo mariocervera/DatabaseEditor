@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rulesCatalog:Catalog xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:rulesCatalog="http:///es.cv.gvcase.rulesCatalog.ecore" xmi:id="_ukWqwDXcEeCfU4RUJDVrDw" transformation="DB2DDL-Oracle10">
+  <configurations xmi:id="_AJHjcIPREeG7_bghAwUreA">
+    <pattern xmi:id="_Ah_9gIPREeG7_bghAwUreA" name="SchemaParameters" firstElement="_A1v_8IPREeG7_bghAwUreA">
+      <elements xmi:id="_A1v_8IPREeG7_bghAwUreA" name="Schema">
+        <type xsi:type="ecore:EClass" href="platform:/plugin/org.eclipse.datatools.modelbase.sql/model/sqlmodel.ecore#//schema/Schema"/>
+      </elements>
+    </pattern>
+    <defaultRule href="MDB2DDL.rulescatalog#_f6KHMjXcEeCfU4RUJDVrDw"/>
+    <parameter xmi:id="_PN8NgIPREeG7_bghAwUreA" name="CreatePublicSynonyms">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameter>
+  </configurations>
+  <catalogs href="MDB2DDL.rulescatalog#_f6KHMDXcEeCfU4RUJDVrDw"/>
+</rulesCatalog:Catalog>

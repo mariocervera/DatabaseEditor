@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rulesCatalog:Catalog xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:rulesCatalog="http:///es.cv.gvcase.rulesCatalog.ecore" xmi:id="_f6KHMDXcEeCfU4RUJDVrDw" transformation="DB2DDL">
+  <configurations xmi:id="_f6KHMTXcEeCfU4RUJDVrDw" defaultRule="_f6KHMjXcEeCfU4RUJDVrDw">
+    <rules xmi:id="_f6KHMjXcEeCfU4RUJDVrDw" name="True"/>
+    <rules xmi:id="_f6KHMzXcEeCfU4RUJDVrDw" name="False"/>
+    <pattern xmi:id="_f6KHNDXcEeCfU4RUJDVrDw" name="DatabaseParameters" firstElement="_f6KHNTXcEeCfU4RUJDVrDw">
+      <elements xmi:id="_f6KHNTXcEeCfU4RUJDVrDw" name="Database">
+        <type xsi:type="ecore:EClass" href="platform:/plugin/org.eclipse.datatools.modelbase.sql/model/sqlmodel.ecore#//schema/Database"/>
+      </elements>
+    </pattern>
+    <parameter xmi:id="_f6KHNjXcEeCfU4RUJDVrDw" name="UseQuotesForNames">
+      <type xsi:type="ecore:EDataType" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    </parameter>
+    <parameter xmi:id="_f6KHNzXcEeCfU4RUJDVrDw" name="GeneratePrivileges">
+      <type xsi:type="ecore:EDataType" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    </parameter>
+    <parameter xmi:id="_f6KHODXcEeCfU4RUJDVrDw" name="GenerateUsers">
+      <type xsi:type="ecore:EDataType" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    </parameter>
+    <parameter xmi:id="_f6KHOTXcEeCfU4RUJDVrDw" name="GenerateComments">
+      <type xsi:type="ecore:EDataType" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    </parameter>
+    <parameter xmi:id="_f6KHOjXcEeCfU4RUJDVrDw" name="AdditionalSentences">
+      <type xsi:type="ecore:EDataType" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    </parameter>
+  </configurations>
+  <configurations xmi:id="_f6KHOzXcEeCfU4RUJDVrDw" defaultRule="_f6KHPDXcEeCfU4RUJDVrDw">
+    <rules xmi:id="_f6KHPDXcEeCfU4RUJDVrDw" name="True"/>
+    <rules xmi:id="_f6KHPTXcEeCfU4RUJDVrDw" name="False"/>
+    <pattern xmi:id="_f6KHPjXcEeCfU4RUJDVrDw" name="SchemaParameters" firstElement="_f6KHPzXcEeCfU4RUJDVrDw">
+      <elements xmi:id="_f6KHPzXcEeCfU4RUJDVrDw" name="Schema">
+        <type xsi:type="ecore:EClass" href="platform:/plugin/org.eclipse.datatools.modelbase.sql/model/sqlmodel.ecore#//schema/Schema"/>
+      </elements>
+    </pattern>
+    <parameter xmi:id="_f6KHQDXcEeCfU4RUJDVrDw" name="CreateSchema">
+      <type xsi:type="ecore:EDataType" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    </parameter>
+    <parameter xmi:id="_f6KHQTXcEeCfU4RUJDVrDw" name="Prefix">
+      <type xsi:type="ecore:EDataType" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    </parameter>
+  </configurations>
+  <configurations xmi:id="_f6KHQjXcEeCfU4RUJDVrDw" defaultRule="_f6KHQzXcEeCfU4RUJDVrDw">
+    <rules xmi:id="_f6KHQzXcEeCfU4RUJDVrDw" name="True"/>
+    <rules xmi:id="_f6KHRDXcEeCfU4RUJDVrDw" name="False"/>
+    <pattern xmi:id="_f6KHRTXcEeCfU4RUJDVrDw" name="PersistentTableParameters" firstElement="_f6KHRjXcEeCfU4RUJDVrDw">
+      <elements xmi:id="_f6KHRjXcEeCfU4RUJDVrDw" name="PersistentTable">
+        <type xsi:type="ecore:EClass" href="platform:/plugin/org.eclipse.datatools.modelbase.sql/model/sqlmodel.ecore#//tables/PersistentTable"/>
+      </elements>
+    </pattern>
+    <parameter xmi:id="_f6KHRzXcEeCfU4RUJDVrDw" name="DropBeforeCreate">
+      <type xsi:type="ecore:EDataType" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    </parameter>
+    <parameter xmi:id="_f6KHSDXcEeCfU4RUJDVrDw" name="Prefix">
+      <type xsi:type="ecore:EDataType" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    </parameter>
+  </configurations>
+  <configurations xmi:id="_f6KHSTXcEeCfU4RUJDVrDw" defaultRule="_f6KHSjXcEeCfU4RUJDVrDw">
+    <rules xmi:id="_f6KHSjXcEeCfU4RUJDVrDw" name="True"/>
+    <rules xmi:id="_f6KHSzXcEeCfU4RUJDVrDw" name="False"/>
+    <pattern xmi:id="_f6KHTDXcEeCfU4RUJDVrDw" name="PrimaryKeyParameters" firstElement="_f6KHTTXcEeCfU4RUJDVrDw">
+      <elements xmi:id="_f6KHTTXcEeCfU4RUJDVrDw" name="PrimaryKey">
+        <type xsi:type="ecore:EClass" href="platform:/plugin/org.eclipse.datatools.modelbase.sql/model/sqlmodel.ecore#//constraints/PrimaryKey"/>
+      </elements>
+    </pattern>
+    <parameter xmi:id="_f6KHTjXcEeCfU4RUJDVrDw" name="DropBeforeCreate">
+      <type xsi:type="ecore:EDataType" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    </parameter>
+    <parameter xmi:id="_f6KHTzXcEeCfU4RUJDVrDw" name="CreateImplicitIndex">
+      <type xsi:type="ecore:EDataType" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    </parameter>
+    <parameter xmi:id="_f6KHUDXcEeCfU4RUJDVrDw" name="Prefix">
+      <type xsi:type="ecore:EDataType" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    </parameter>
+  </configurations>
+  <configurations xmi:id="_f6KHUTXcEeCfU4RUJDVrDw" defaultRule="_f6KHUjXcEeCfU4RUJDVrDw">
+    <rules xmi:id="_f6KHUjXcEeCfU4RUJDVrDw" name="True"/>
+    <rules xmi:id="_f6KHUzXcEeCfU4RUJDVrDw" name="False"/>
+    <pattern xmi:id="_f6KHVDXcEeCfU4RUJDVrDw" name="ForeignKeyParameters" firstElement="_f6KHVTXcEeCfU4RUJDVrDw">
+      <elements xmi:id="_f6KHVTXcEeCfU4RUJDVrDw" name="ForeignKey">
+        <type xsi:type="ecore:EClass" href="platform:/plugin/org.eclipse.datatools.modelbase.sql/model/sqlmodel.ecore#//constraints/ForeignKey"/>
+      </elements>
+    </pattern>
+    <parameter xmi:id="_f6KHVjXcEeCfU4RUJDVrDw" name="DropBeforeCreate">
+      <type xsi:type="ecore:EDataType" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    </parameter>
+    <parameter xmi:id="_f6KHVzXcEeCfU4RUJDVrDw" name="CreateImplicitIndex">
+      <type xsi:type="ecore:EDataType" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    </parameter>
+    <parameter xmi:id="_f6KHWDXcEeCfU4RUJDVrDw" name="Prefix">
+      <type xsi:type="ecore:EDataType" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    </parameter>
+  </configurations>
+  <configurations xmi:id="_f6KHWTXcEeCfU4RUJDVrDw" defaultRule="_f6KHWjXcEeCfU4RUJDVrDw">
+    <rules xmi:id="_f6KHWjXcEeCfU4RUJDVrDw" name="True"/>
+    <rules xmi:id="_f6KHWzXcEeCfU4RUJDVrDw" name="False"/>
+    <pattern xmi:id="_f6KHXDXcEeCfU4RUJDVrDw" name="UniqueConstraintParameters" firstElement="_f6KHXTXcEeCfU4RUJDVrDw">
+      <elements xmi:id="_f6KHXTXcEeCfU4RUJDVrDw" name="UniqueConstraint">
+        <type xsi:type="ecore:EClass" href="platform:/plugin/org.eclipse.datatools.modelbase.sql/model/sqlmodel.ecore#//constraints/UniqueConstraint"/>
+      </elements>
+    </pattern>
+    <parameter xmi:id="_f6KHXjXcEeCfU4RUJDVrDw" name="DropBeforeCreate">
+      <type xsi:type="ecore:EDataType" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    </parameter>
+    <parameter xmi:id="_f6KHXzXcEeCfU4RUJDVrDw" name="CreateImplicitIndex">
+      <type xsi:type="ecore:EDataType" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    </parameter>
+    <parameter xmi:id="_f6KHYDXcEeCfU4RUJDVrDw" name="Prefix">
+      <type xsi:type="ecore:EDataType" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    </parameter>
+  </configurations>
+  <configurations xmi:id="_f6KHYTXcEeCfU4RUJDVrDw" defaultRule="_f6KHYjXcEeCfU4RUJDVrDw">
+    <rules xmi:id="_f6KHYjXcEeCfU4RUJDVrDw" name="True"/>
+    <rules xmi:id="_f6KHYzXcEeCfU4RUJDVrDw" name="False"/>
+    <pattern xmi:id="_f6KHZDXcEeCfU4RUJDVrDw" name="CheckConstraintParameters" firstElement="_f6KHZTXcEeCfU4RUJDVrDw">
+      <elements xmi:id="_f6KHZTXcEeCfU4RUJDVrDw" name="CheckConstraint">
+        <type xsi:type="ecore:EClass" href="platform:/plugin/org.eclipse.datatools.modelbase.sql/model/sqlmodel.ecore#//constraints/CheckConstraint"/>
+      </elements>
+    </pattern>
+    <parameter xmi:id="_f6KHZjXcEeCfU4RUJDVrDw" name="DropBeforeCreate">
+      <type xsi:type="ecore:EDataType" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    </parameter>
+    <parameter xmi:id="_f6KHZzXcEeCfU4RUJDVrDw" name="Prefix">
+      <type xsi:type="ecore:EDataType" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    </parameter>
+  </configurations>
+  <configurations xmi:id="_f6KHaDXcEeCfU4RUJDVrDw" defaultRule="_f6KHaTXcEeCfU4RUJDVrDw">
+    <rules xmi:id="_f6KHaTXcEeCfU4RUJDVrDw" name="True"/>
+    <rules xmi:id="_f6KHajXcEeCfU4RUJDVrDw" name="False"/>
+    <pattern xmi:id="_f6KHazXcEeCfU4RUJDVrDw" name="IndexParameters" firstElement="_f6KHbDXcEeCfU4RUJDVrDw">
+      <elements xmi:id="_f6KHbDXcEeCfU4RUJDVrDw" name="Index">
+        <type xsi:type="ecore:EClass" href="platform:/plugin/org.eclipse.datatools.modelbase.sql/model/sqlmodel.ecore#//constraints/Index"/>
+      </elements>
+    </pattern>
+    <parameter xmi:id="_f6KHbTXcEeCfU4RUJDVrDw" name="DropBeforeCreate">
+      <type xsi:type="ecore:EDataType" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    </parameter>
+    <parameter xmi:id="_f6KuQDXcEeCfU4RUJDVrDw" name="Prefix">
+      <type xsi:type="ecore:EDataType" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    </parameter>
+  </configurations>
+  <configurations xmi:id="_f6KuQTXcEeCfU4RUJDVrDw" defaultRule="_f6KuQjXcEeCfU4RUJDVrDw">
+    <rules xmi:id="_f6KuQjXcEeCfU4RUJDVrDw" name="True"/>
+    <rules xmi:id="_f6KuQzXcEeCfU4RUJDVrDw" name="False"/>
+    <pattern xmi:id="_f6KuRDXcEeCfU4RUJDVrDw" name="RoleParameters" firstElement="_f6KuRTXcEeCfU4RUJDVrDw">
+      <elements xmi:id="_f6KuRTXcEeCfU4RUJDVrDw" name="Role">
+        <type xsi:type="ecore:EClass" href="platform:/plugin/org.eclipse.datatools.modelbase.sql/model/sqlmodel.ecore#//accesscontrol/Role"/>
+      </elements>
+    </pattern>
+    <parameter xmi:id="_f6KuRjXcEeCfU4RUJDVrDw" name="DropBeforeCreate">
+      <type xsi:type="ecore:EDataType" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    </parameter>
+    <parameter xmi:id="_f6KuRzXcEeCfU4RUJDVrDw" name="Prefix">
+      <type xsi:type="ecore:EDataType" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    </parameter>
+  </configurations>
+  <configurations xmi:id="_f6KuSDXcEeCfU4RUJDVrDw" defaultRule="_f6KuSTXcEeCfU4RUJDVrDw">
+    <rules xmi:id="_f6KuSTXcEeCfU4RUJDVrDw" name="True"/>
+    <rules xmi:id="_f6KuSjXcEeCfU4RUJDVrDw" name="False"/>
+    <pattern xmi:id="_f6KuSzXcEeCfU4RUJDVrDw" name="UserParameters" firstElement="_f6KuTDXcEeCfU4RUJDVrDw">
+      <elements xmi:id="_f6KuTDXcEeCfU4RUJDVrDw" name="User">
+        <type xsi:type="ecore:EClass" href="platform:/plugin/org.eclipse.datatools.modelbase.sql/model/sqlmodel.ecore#//accesscontrol/User"/>
+      </elements>
+    </pattern>
+    <parameter xmi:id="_f6KuTTXcEeCfU4RUJDVrDw" name="DropBeforeCreate">
+      <type xsi:type="ecore:EDataType" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    </parameter>
+    <parameter xmi:id="_f6KuTjXcEeCfU4RUJDVrDw" name="Prefix">
+      <type xsi:type="ecore:EDataType" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    </parameter>
+  </configurations>
+  <configurations xmi:id="_f6KuTzXcEeCfU4RUJDVrDw" defaultRule="_f6KuUDXcEeCfU4RUJDVrDw">
+    <rules xmi:id="_f6KuUDXcEeCfU4RUJDVrDw" name="True"/>
+    <rules xmi:id="_f6KuUTXcEeCfU4RUJDVrDw" name="False"/>
+    <pattern xmi:id="_f6KuUjXcEeCfU4RUJDVrDw" name="ColumnsParameters" firstElement="_f6KuUzXcEeCfU4RUJDVrDw">
+      <elements xmi:id="_f6KuUzXcEeCfU4RUJDVrDw" name="Column">
+        <type xsi:type="ecore:EClass" href="platform:/plugin/org.eclipse.datatools.modelbase.sql/model/sqlmodel.ecore#//tables/Column"/>
+      </elements>
+    </pattern>
+    <parameter xmi:id="_f6KuVDXcEeCfU4RUJDVrDw" name="DropBeforeCreate">
+      <type xsi:type="ecore:EDataType" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    </parameter>
+    <parameter xmi:id="_f6KuVTXcEeCfU4RUJDVrDw" name="Prefix">
+      <type xsi:type="ecore:EDataType" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    </parameter>
+  </configurations>
+  <source xmi:id="_f6KuVjXcEeCfU4RUJDVrDw" name="sqlmodel"/>
+</rulesCatalog:Catalog>

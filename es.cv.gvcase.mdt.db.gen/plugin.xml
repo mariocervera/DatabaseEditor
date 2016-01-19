@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+         id="DB2DDL"
+         point="es.cv.gvcase.trmanager.transformation">
+      <transformation
+            class="es.cv.gvcase.mdt.gen.transf.DB2DDLTransformation_PostgreSQL"
+            id="es.cv.gvcase.mdt.db.gen.DB2DDL.Postgre"
+            name="PostgreSQL DDL generation from DB models"
+            package="MOSKitt/DB"
+            priority="5"
+            trId="DB2DDL-PostgreSQL"
+            userAvailable="true">
+         <outputResources>
+            <resource
+                  name="generationFile"
+                  type="FILE">
+            </resource>
+         </outputResources>
+         <inputResources>
+            <resource
+                  metamodelURI="http:///org/eclipse/datatools/modelbase/sql/schema.ecore"
+                  name="inputDatabaseModel"
+                  type="MODEL">
+            </resource>
+         </inputResources>
+         <fileExtensions>
+            <fileExtension
+                  name="sqlschema">
+            </fileExtension>
+         </fileExtensions>
+      </transformation>
+   </extension>
+   <extension
+         point="org.eclipse.emf.validation.constraintBindings">
+      <clientContext
+            default="false"
+            id="es.cv.gvcase.mdt.db.gen.clientContext1">
+         <selector
+               class="es.cv.gvcase.mdt.gen.constraints.ValidationDelegateClientSelector">
+         </selector>
+      </clientContext>
+      <binding
+            category="es.cv.gvcase.mdt.db.gen.category1"
+            context="es.cv.gvcase.mdt.db.gen.clientContext1">
+      </binding>
+   </extension>
+   
+</plugin>

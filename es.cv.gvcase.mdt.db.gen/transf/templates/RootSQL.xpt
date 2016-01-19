@@ -1,0 +1,386 @@
+«REM»
+/*******************************************************************************
+ * Copyright (c) 2007 Conselleria de Infraestructuras y Transporte, Generalitat 
+ * de la Comunitat Valenciana. All rights reserved. This program
+ * and the accompanying materials are made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution, and is
+ * available at http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ * Gabriel Merin (Integranova) €“ Initial Implementation
+ * Mario Cervera Ubeda (Integranova) - Expanded functionality
+ * Maria Martinez OrtuÃ±o - Expanded functionality 
+ *	
+ *
+ ******************************************************************************/
+«ENDREM»
+«IMPORT sqlmodel»
+
+
+«REM»********************* 1. DATABASE *******************************«ENDREM»
+
+
+«DEFINE Root(String fileName) FOR schema::Database»
+«FILE fileName+".sql"-»
+«EXPAND schema(fileName) FOREACH this.schemas.typeSelect(schema::Schema)»
+«EXPAND additionalSentences FOR this-»
+«ENDFILE»
+«ENDDEFINE»
+
+«DEFINE schema(String fileName) FOR schema::Schema»
+«LET ((String)GLOBALVAR DB) AS DB-» 
+/* Code generated for «DB» */
+«IF DB == "Postgre_8_2_4"»«EXPAND Postgre_8_2_4::schema FOR this-»
+«EXPAND Postgre_8_2_4::selSchema FOR this-»
+«ELSEIF DB == "Oracle_8_1_7"»«EXPAND Oracle_8_1_7::schema FOR this-»
+«EXPAND Oracle_8_1_7::selSchema FOR this-»
+«ELSEIF DB == "Oracle_10_2"»«EXPAND Oracle_10_2::schema FOR this-»
+«EXPAND Oracle_10_2::selSchema FOR this-»
+«ELSEIF DB == "MySQL_5"»«EXPAND MySQL_5::schema FOR this-»
+«EXPAND MySQL_5::selSchema FOR this-»
+«ENDIF»
+
+«REM»PersistentTables«ENDREM»
+«EXPAND processTables(fileName) FOREACH this.tables»
+
+«REM»indexes«ENDREM»
+«IF DB != "MySQL_5"-»«EXPAND dropIndex(fileName) FOREACH this.indices-»
+«ELSE-»«EXPAND MySQL_5::dropIndex(fileName) FOREACH this.indices-»
+«ENDIF-»
+
+«EXPAND index(fileName) FOREACH this.indices-»
+«REM»Sequences«ENDREM»
+
+«EXPAND sequence(fileName) FOREACH this.sequences»	
+
+«REM»ForeignKeys«ENDREM»
+«EXPAND RootSQL::foreignKeysRoot(fileName) FOREACH this.tables.typeSelect(tables::PersistentTable)»
+
+«ENDLET»
+«ENDDEFINE»
+
+«DEFINE processTables(String fileName) FOR tables::Table-»
+ «REM»PersistentTables«ENDREM»
+ «IF tables::PersistentTable.isInstance(this)-»
+	«EXPAND dropTable(fileName) FOR this»
+	«EXPAND table(fileName) FOR this»	
+«ENDIF-»	
+	«REM»ViewTables«ENDREM»
+ «IF tables::ViewTable.isInstance(this)-»«EXPAND table(fileName) FOR this»«ENDIF-»	
+«ENDDEFINE»
+
+«REM»****************************************************«ENDREM»
+«DEFINE seqColName FOR tables::Column-»
+«EXPAND quote FOR this-»SEQ_«this.table.name»_«this.name»«EXPAND quote FOR this-»«ENDDEFINE»
+
+«DEFINE seqColName FOR schema::IdentitySpecifier-»
+«EXPAND quote FOR this-»SEQ_«this.name»«EXPAND quote FOR this-»«ENDDEFINE»
+
+«DEFINE sequence(String fileName) FOR schema::Sequence-» 
+«EXPAND identitySpec(null) FOR this.identity-»
+«ENDDEFINE»
+
+«DEFINE sequence FOR tables::Column-»
+«EXPAND identitySpec(this) FOR this.identitySpecifier-»
+«ENDDEFINE»
+
+«DEFINE identitySpec(tables::Column col) FOR schema::IdentitySpecifier-»
+«LET ((String)GLOBALVAR DB) AS DB-»
+«IF DB == "Postgre_8_2_4"»«EXPAND Postgre_8_2_4::identitySpec(col) FOR this-»
+«ELSEIF DB == "Oracle_8_1_7"»«EXPAND Oracle_8_1_7::identitySpec(col) FOR this-»
+«ELSEIF DB == "Oracle_10_2"»«EXPAND Oracle_10_2::identitySpec(col) FOR this-»
+«ELSEIF DB == "MySQL_5"»«EXPAND MySQL_5::identitySpec(col) FOR this-»
+«ENDIF-»
+«ENDLET-»
+«ENDDEFINE»
+
+«REM»****************************************************«ENDREM»
+
+«DEFINE table(String fileName) FOR tables::PersistentTable»
+«LET ((String)GLOBALVAR DB) AS DB-»
+CREATE TABLE «EXPAND nameschema(this.schema) FOR this.schema»«EXPAND name FOR this-»
+(«FOREACH this.columns AS c SEPARATOR ","»
+«EXPAND columns FOR (tables::Column) c-»
+«ENDFOREACH»
+) «IF DB == "MySQL_5"-» «EXPAND MySQL_5::engine FOR this-»«ENDIF-»;
+
+«EXPAND sequence FOREACH this.columns.select(c|c.identitySpecifier != null)-»
+
+«IF DB == "MySQL_5"-»
+«EXPAND MySQL_5::primaryKey FOR this.getPrimaryKey()-»
+«EXPAND MySQL_5::uniqueConstraint FOREACH this.getUniqueConstraints().select(uc | uc != this.getPrimaryKey())-»
+«EXPAND MySQL_5::checkConstraint FOREACH this.constraints.typeSelect(constraints::CheckConstraint)-»
+«ELSE-»
+«IF DB == "Postgre_8_2_4"-»
+«EXPAND Postgre_8_2_4::primaryKey FOR this.getPrimaryKey()-»
+«EXPAND Postgre_8_2_4::checkConstraint FOREACH this.constraints.typeSelect(constraints::CheckConstraint)-»
+«EXPAND Postgre_8_2_4::uniqueConstraint FOREACH this.getUniqueConstraints().select(uc | uc != this.getPrimaryKey())-»
+«ELSE-»
+«EXPAND primaryKey FOR this.getPrimaryKey()-»
+«EXPAND checkConstraint FOREACH this.constraints.typeSelect(constraints::CheckConstraint)-»
+«EXPAND uniqueConstraint FOREACH this.getUniqueConstraints().select(uc | uc != this.getPrimaryKey())-»
+«ENDIF-»
+«ENDIF-»
+«EXPAND descriptiontable FOR this-»
+«EXPAND descriptioncolumn FOREACH this.columns-»
+«ENDLET-»
+
+«ENDDEFINE»
+
+«DEFINE descriptiontable FOR tables::PersistentTable-»
+«ENDDEFINE»
+
+
+«DEFINE descriptionview FOR tables::ViewTable-»
+«ENDDEFINE»
+
+
+«DEFINE descriptioncolumn FOR tables::Column-»
+«ENDDEFINE»
+
+«REM»****************************************************«ENDREM»
+«DEFINE table(String fileName) FOR tables::ViewTable»
+«LET ((String)GLOBALVAR DB) AS DB-»
+«IF DB == "Postgre_8_2_4"»«EXPAND Postgre_8_2_4::table(fileName) FOR this-»
+«ELSEIF DB == "Oracle_8_1_7"»«EXPAND Oracle_8_1_7::table(fileName) FOR this-»
+«ELSEIF DB == "Oracle_10_2"»«EXPAND Oracle_10_2::table(fileName) FOR this-»
+«ELSEIF DB == "MySQL_5"»«EXPAND MySQL_5::table(fileName) FOR this-»
+«ENDIF-»
+«ENDLET-»
+«ENDDEFINE»
+
+«DEFINE viewColumnNames FOR tables::ViewTable-»
+(«FOREACH this.viewedColumns AS c SEPARATOR ","»«EXPAND name FOR c-»«ENDFOREACH-»
+)
+«ENDDEFINE»
+
+«REM»****************************************************«ENDREM»
+«DEFINE columns FOR tables::Column-»
+«LET ((String)GLOBALVAR DB) AS DB-»
+«IF DB == "Postgre_8_2_4"»«EXPAND Postgre_8_2_4::columns FOR this-»
+«ELSEIF DB == "Oracle_8_1_7"»«EXPAND Oracle_8_1_7::columns FOR this-»
+«ELSEIF DB == "Oracle_10_2"»«EXPAND Oracle_10_2::columns FOR this-»
+«ELSEIF DB == "MySQL_5"»«EXPAND MySQL_5::columns FOR this-»
+«ENDIF-»
+«ENDLET-»
+«ENDDEFINE»
+
+«DEFINE notNull FOR tables::Column-»
+«IF this.nullable == false» NOT NULL«ENDIF-»
+«ENDDEFINE»
+
+«REM»****************************************************«ENDREM»
+«DEFINE primaryKey FOR constraints::PrimaryKey-»
+
+«EXPAND RootSQL::dropConstraint FOR this-»
+ALTER TABLE «EXPAND name FOR this.BaseTable-» ADD CONSTRAINT «EXPAND name FOR this» PRIMARY KEY («FOREACH this.members AS c SEPARATOR ","»«EXPAND name FOR c-»«ENDFOREACH-»
+)«EXPAND deferrables FOR this»;
+
+«EXPAND RootSQL::implicitIndex FOR this»
+«ENDDEFINE»
+
+«DEFINE uniqueConstraint FOR constraints::UniqueConstraint-»
+
+«EXPAND RootSQL::dropConstraint FOR this-»
+ALTER TABLE «EXPAND name FOR this.BaseTable-» ADD CONSTRAINT «EXPAND name FOR this» UNIQUE («FOREACH this.members AS c SEPARATOR ","»«EXPAND name FOR c-»«ENDFOREACH-»
+)«EXPAND deferrables FOR this»;
+
+«EXPAND RootSQL::implicitIndex FOR this»
+«ENDDEFINE»
+
+«DEFINE checkConstraint FOR constraints::CheckConstraint-»
+
+«EXPAND RootSQL::dropConstraint FOR this-»
+ALTER TABLE «EXPAND name FOR this.BaseTable-» ADD CONSTRAINT «EXPAND name FOR this» CHECK («this.searchCondition.getSQL()»)«EXPAND deferrables FOR this-»
+;
+«ENDDEFINE»
+
+«DEFINE deferrables FOR constraints::Constraint-»
+«IF this.deferrable == true» DEFERRABLE«ELSE» NOT DEFERRABLE«ENDIF-»
+«IF this.initiallyDeferred == true» INITIALLY DEFERRED«ELSE» INITIALLY IMMEDIATE«ENDIF-»
+«ENDDEFINE»
+
+«REM»****************************************************«ENDREM»
+«DEFINE index(String fileName) FOR constraints::Index-»
+«LET ((String)GLOBALVAR DB) AS DB-»
+«IF DB == "Postgre_8_2_4"»«EXPAND Postgre_8_2_4::index FOR this-»
+«ELSEIF DB == "Oracle_8_1_7"»«EXPAND Oracle_8_1_7::index FOR this-»
+«ELSEIF DB == "Oracle_10_2"»«EXPAND Oracle_10_2::index FOR this-»
+«ELSEIF DB == "MySQL_5"»«EXPAND MySQL_5::index FOR this-»
+«ENDIF-»
+«ENDLET»
+«ENDDEFINE»
+
+«DEFINE indexUnique FOR constraints::Index-»
+«IF this.unique == true»UNIQUE «ENDIF-»
+«ENDDEFINE»
+«REM»****************************************************«ENDREM»
+«DEFINE foreignKeysRoot(String fileName) FOR tables::PersistentTable-»
+«LET ((String)GLOBALVAR DB) AS DB-»
+«IF DB == "Postgre_8_2_4"»«EXPAND Postgre_8_2_4::foreignKeys(fileName) FOR this-»
+«ELSEIF DB == "Oracle_8_1_7"»«EXPAND Oracle_8_1_7::foreignKeys(fileName) FOR this-»
+«ELSEIF DB == "Oracle_10_2"»«EXPAND Oracle_8_1_7::foreignKeys(fileName) FOR this-»
+«ELSEIF DB == "MySQL_5"»«EXPAND MySQL_5::foreignKeys(fileName) FOR this-»
+«ELSE»«EXPAND RootSQL::foreignKeys(fileName) FOR this-»
+«ENDIF-»
+«ENDLET-»
+«ENDDEFINE»
+
+«REM»****************************************************«ENDREM»
+«REM»Foreign Keys for Oracle (no funciona si llamo a la plantilla de Oracle_8_1_7)«ENDREM»
+«REM»****************************************************«ENDREM»
+«DEFINE foreignKeys(String fileName) FOR tables::PersistentTable-»
+ 
+«FOREACH this.getForeignKeys() AS fk-»
+«EXPAND RootSQL::dropConstraint FOR fk-»
+ALTER TABLE «EXPAND RootSQL::name FOR this-» ADD CONSTRAINT «EXPAND RootSQL::name FOR fk» FOREIGN KEY («EXPAND fkCols FOR fk») REFERENCES «EXPAND RootSQL::name FOR fk.referencedTable-»«EXPAND fkRefCols FOR fk-»
+«EXPAND actions FOR fk»«EXPAND RootSQL::deferrables FOR fk»;
+«EXPAND RootSQL::implicitIndex FOR fk»
+«ENDFOREACH-»
+
+«ENDDEFINE»
+
+«DEFINE fkCols FOR constraints::ForeignKey-»
+«FOREACH this.members AS c SEPARATOR ","»«EXPAND RootSQL::name FOR c-»«ENDFOREACH-»
+«ENDDEFINE»
+
+«DEFINE fkRefCols FOR constraints::ForeignKey-»
+«IF this.referencedMembers.size > 0-»
+(«FOREACH this.referencedMembers AS c SEPARATOR ","»«EXPAND RootSQL::name FOR c-»«ENDFOREACH-»)«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE actions FOR constraints::ForeignKey-»
+«IF this.onDelete == schema::ReferentialActionType::CASCADE || this.onDelete == schema::ReferentialActionType::SET_NULL»
+ ON DELETE «this.onDelete.toString().replaceAll("_"," ")-»
+«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE name FOR schema::SQLObject-»
+«IF this != null»
+«EXPAND quote FOR this-»
+«EXPAND prfx FOR this-»«this.name-»
+«EXPAND quote FOR this-»
+«ELSE-»
+«EXPAND prfx FOR this-»«this.name-»
+«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE quote FOR schema::SQLObject-»
+«LET ((String)GLOBALVAR DB) AS DB-»
+«IF DB == "MySQL_5"-»`«ELSE-»"«ENDIF-»
+«ENDLET-»
+«ENDDEFINE»
+
+«DEFINE additionalSentences FOR schema::Database-»
+«ENDDEFINE»
+
+«DEFINE dropTable(String fileName) FOR tables::PersistentTable-» 
+DROP TABLE «EXPAND name FOR this-»;
+«ENDDEFINE»
+
+«DEFINE dropIndex(String fileName) FOR constraints::Index-»
+DROP INDEX «EXPAND name FOR this-»;
+«ENDDEFINE»
+
+«DEFINE dropConstraint FOR constraints::TableConstraint-»
+ALTER TABLE «EXPAND name FOR this.BaseTable-» DROP CONSTRAINT «EXPAND name FOR this-»;
+«ENDDEFINE»
+
+«DEFINE prfx FOR schema::SQLObject-»
+«ENDDEFINE»
+
+
+«DEFINE implicitIndex FOR constraints::ReferenceConstraint-»
+CREATE INDEX «EXPAND quote FOR this-»impIndex_«this.name»«EXPAND quote FOR this-» ON «EXPAND name FOR this.BaseTable-»(«EXPAND implicitIndexMembers FOR this-»);
+«ENDDEFINE»
+
+«DEFINE implicitIndexMembers FOR constraints::ReferenceConstraint-»
+«FOREACH this.members AS m SEPARATOR ","-»«EXPAND name FOR m-»«ENDFOREACH-»
+«ENDDEFINE»
+
+
+«DEFINE nameschema(schema::Schema s) FOR schema::Schema-»
+«ENDDEFINE»
+
+«REM»********************** GENERATE PRIVILEGES ******************************«ENDREM»
+
+«REM»privileges«ENDREM»
+«DEFINE privileges FOR accesscontrol::AuthorizationIdentifier -»
+«ENDDEFINE»
+
+«DEFINE grantprivileges FOR accesscontrol::AuthorizationIdentifier -»
+«ENDDEFINE»
+
+
+«DEFINE dropRole FOR accesscontrol::Role-»
+«ENDDEFINE»
+
+
+«DEFINE dropUser FOR accesscontrol::User-»
+DROP USER «EXPAND name FOR this-»;
+«ENDDEFINE»
+
+«DEFINE role FOR accesscontrol::Role-»
+«LET ((String)GLOBALVAR DB) AS DB-»
+«IF DB == "Postgre_8_2_4"»«EXPAND Postgre_8_2_4::role FOR this-»
+«ELSEIF DB == "Oracle_8_1_7"»«EXPAND Oracle_8_1_7::role FOR this-»
+«ELSEIF DB == "Oracle_10_2"»«EXPAND Oracle_10_2::role FOR this-»
+«ENDIF-»
+«ENDLET-»
+«ENDDEFINE»
+
+«DEFINE user FOR accesscontrol::User-»
+«LET ((String)GLOBALVAR DB) AS DB-»
+«IF DB == "Postgre_8_2_4"»«EXPAND Postgre_8_2_4::user FOR this-»
+«ELSEIF DB == "Oracle_8_1_7"»«EXPAND Oracle_8_1_7::user FOR this-»
+«ELSEIF DB == "Oracle_10_2"»«EXPAND Oracle_10_2::user FOR this-»
+«ELSEIF DB == "MySQL_5"»«EXPAND MySQL_5::user FOR this-»
+«ENDIF-»
+«ENDLET-»
+«ENDDEFINE»
+
+«DEFINE group FOR accesscontrol::Group-»
+«LET ((String)GLOBALVAR DB) AS DB-»
+«IF DB == "Postgre_8_2_4"»«EXPAND Postgre_8_2_4::group FOR this-»
+«ENDIF-»
+«ENDLET-»
+«ENDDEFINE»
+
+«DEFINE grant_schemaonly FOR accesscontrol::AuthorizationIdentifier-»
+«ENDDEFINE»
+
+«DEFINE grant FOR accesscontrol::AuthorizationIdentifier-»
+«LET ((String)GLOBALVAR DB) AS DB-»
+«IF DB == "MySQL_5"»
+	«EXPAND MySQL_5::grant FOREACH this.receivedPrivilege-»
+«ELSEIF DB == "Postgre_8_2_4"»
+	«EXPAND Postgre_8_2_4::grant FOREACH this.receivedPrivilege-»
+	«EXPAND Postgre_8_2_4::grant_roles FOR this-»
+«ELSEIF DB == "Oracle_8_1_7"»
+	«IF accesscontrol::Group.isInstance(this) == false-»
+		«EXPAND Oracle_8_1_7::grant FOREACH this.receivedPrivilege-»
+		«EXPAND Oracle_8_1_7::grant_roles FOR this-»
+	«ENDIF-»	
+«ELSEIF DB == "Oracle_10_2"»
+	«IF accesscontrol::Group.isInstance(this) == false-»
+		«EXPAND Oracle_10_2::grant FOREACH this.receivedPrivilege-»
+		«EXPAND Oracle_10_2::grant_roles FOR this-»
+	«ENDIF-»
+«ENDIF-»
+«ENDLET-»
+«ENDDEFINE»
+
+
+
+«DEFINE createSearchPath FOR accesscontrol::AuthorizationIdentifier»
+«LET ((String)GLOBALVAR DB) AS DB-» 
+«IF DB == "Postgre_8_2_4" »
+«EXPAND createSearchPathSchemas FOR this»
+«ENDIF»
+«ENDLET»
+«ENDDEFINE»
+
+«DEFINE createSearchPathSchemas FOR accesscontrol::AuthorizationIdentifier-»
+ALTER ROLE «this.name» SET SEARCH_PATH=«LET getStringCreateSearchPath(this, accesscontrol::AuthorizationIdentifier) AS e»«IF e.length == 0-»«this.eContainer().schemas.get(0).name»;«ELSE»«e»;«ENDIF»«ENDLET»
+«ENDDEFINE»
+

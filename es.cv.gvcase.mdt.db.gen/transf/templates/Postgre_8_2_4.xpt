@@ -1,0 +1,231 @@
+«REM»
+/*******************************************************************************
+ * Copyright (c) 2007 Conselleria de Infraestructuras y Transporte, Generalitat 
+ * de la Comunitat Valenciana. All rights reserved. This program
+ * and the accompanying materials are made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution, and is
+ * available at http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ * Gabriel Merin (Integranova) €“ Initial Implementation
+ * Mario Cervera Ubeda (Integranova) - Expanded functionality
+ *
+ ******************************************************************************/
+«ENDREM»
+«IMPORT sqlmodel»
+
+
+
+
+«REM»****************************************************«ENDREM»
+«REM»Schema«ENDREM»
+«REM»****************************************************«ENDREM»
+«DEFINE schema FOR schema::Schema-»
+CREATE SCHEMA «EXPAND RootSQL::name FOR this-»;
+«ENDDEFINE»
+
+«DEFINE selSchema FOR schema::Schema-»
+SET search_path TO «EXPAND RootSQL::name FOR this-»;
+«ENDDEFINE»
+
+«REM»****************************************************«ENDREM»
+«REM»Sequence«ENDREM»
+«REM»****************************************************«ENDREM»
+«DEFINE identitySpec(tables::Column col) FOR schema::IdentitySpecifier-»
+
+CREATE SEQUENCE «IF col != null»«EXPAND RootSQL::nameschema(this.eContainer.table.schema) FOR this.eContainer.table.schema»«ELSE»«EXPAND RootSQL::nameschema(this.eContainer.schema) FOR this.eContainer.schema»«ENDIF»«IF col == null»«EXPAND RootSQL::seqColName FOR this»«ELSE»«EXPAND RootSQL::seqColName FOR col»«ENDIF»
+	«IF this.increment != null»INCREMENT BY «this.increment»«ENDIF»
+	«IF this.minimum != null»MINVALUE «this.minimum»«ELSE»NO MINVALUE«ENDIF»
+	«IF this.maximum != null»MAXVALUE «this.maximum»«ELSE»NO MAXVALUE«ENDIF»
+	«IF this.startValue != null»START WITH «this.startValue»«ENDIF»
+	«IF this.cycleOption == true»CYCLE«ELSE»NO CYCLE«ENDIF»
+«IF col != null-»
+	OWNED BY «EXPAND RootSQL::nameschema(this.eContainer.table.schema) FOR this.eContainer.table.schema»«EXPAND RootSQL::name FOR col.table-».«EXPAND RootSQL::name FOR col-»
+	
+«ENDIF-»;
+«IF col != null-»
+ALTER TABLE «EXPAND RootSQL::nameschema(this.eContainer.table.schema) FOR this.eContainer.table.schema»«EXPAND RootSQL::name FOR col.table-» ALTER COLUMN «EXPAND RootSQL::name FOR col-» SET DEFAULT nextval(«EXPAND singleQuote FOR this»«IF col != null»«EXPAND RootSQL::nameschema(this.eContainer.table.schema) FOR this.eContainer.table.schema»«ELSE»«EXPAND RootSQL::nameschema(this.eContainer.schema) FOR this.eContainer.schema»«ENDIF»«EXPAND RootSQL::seqColName FOR col»«EXPAND singleQuote FOR this»);
+«ENDIF»
+
+
+«ENDDEFINE»
+
+«DEFINE singleQuote FOR schema::SQLObject-»
+
+'
+
+«ENDDEFINE»
+
+
+«REM»****************************************************«ENDREM»
+«REM»Column«ENDREM»
+«REM»****************************************************«ENDREM»
+«DEFINE columns FOR tables::Column-»
+	«EXPAND RootSQL::name FOR this-» «EXPAND DT_Postgre_8_2_4::sqlDataType FOR this.getDataType()-»«EXPAND RootSQL::notNull FOR this-»«EXPAND defaultValue FOR this-»
+«ENDDEFINE»
+
+«DEFINE defaultValue FOR tables::Column-»
+«IF this.identitySpecifier == null && this.defaultValue.length > 0» DEFAULT «this.defaultValue»«ENDIF-»
+«ENDDEFINE»
+
+«REM»****************************************************«ENDREM»
+«REM»Index«ENDREM»
+«REM»****************************************************«ENDREM»
+«DEFINE index FOR constraints::Index-»
+
+CREATE INDEX «EXPAND RootSQL::indexUnique FOR this-» 
+«EXPAND RootSQL::name FOR this» ON «EXPAND RootSQL::nameschema(this.table.schema) FOR this.table.schema»«EXPAND RootSQL::name FOR this.table-» («EXPAND indexExpression FOR this»)«EXPAND fillFactor FOR this»;
+«ENDDEFINE»
+
+«DEFINE fillFactor FOR constraints::Index-»
+«IF this.fillFactor > 0» WITH («this.fillFactor»)«ENDIF-»
+«ENDDEFINE»
+
+«REM»«DEFINE indexExpression FOR constraints::Index-»
+«LET this.getEAnnotation("AdditionalAttributes") AS annotation-»
+«FOREACH annotation.details AS detail-»
+«IF detail.key == "Expression" && detail.value == ""-»«FOREACH this.members AS m SEPARATOR ","»«EXPAND RootSQL::name FOR m.column-»«ENDFOREACH-»
+«ELSEIF detail.key == "Expression" && detail.value != ""-»«detail.value-»
+«ENDIF-»
+«ENDFOREACH-»
+«ENDLET-»
+«ENDDEFINE»«ENDREM»
+«DEFINE indexExpression FOR constraints::Index-»
+«FOREACH this.members AS m SEPARATOR ","»«EXPAND RootSQL::name FOR m.column-»«ENDFOREACH-»
+«ENDDEFINE»
+«REM»****************************************************«ENDREM»
+«REM»Views«ENDREM»
+«REM»****************************************************«ENDREM»
+«DEFINE table(String fileName) FOR tables::ViewTable»
+
+CREATE VIEW «EXPAND RootSQL::nameschema(this.schema) FOR this.schema»«EXPAND RootSQL::name FOR this-»«EXPAND RootSQL::viewColumnNames FOR this» AS «IF this.queryExpression != null»«IF this.queryExpression.getSQL().endsWith(";")-»(«this.queryExpression.getSQL().subString(0, this.queryExpression.getSQL().length - 1)»)«ELSE-»(«this.queryExpression.getSQL()»)«ENDIF-»«ELSE-»(«this.queryExpression.getSQL()»)«ENDIF-»
+«REM»«EXPAND checkType FOR this»«ENDREM»
+;
+«ENDDEFINE»
+
+«DEFINE checkType FOR tables::ViewTable-»
+«IF this.checkType != tables::CheckType::NONE»
+	WITH «this.checkType-» CHECK OPTION
+«ENDIF-»;
+«EXPAND RootSQL::descriptionview FOR this-»
+«ENDDEFINE»
+
+«REM»****************************************************«ENDREM»
+«REM»Foreign Keys«ENDREM»
+«REM»****************************************************«ENDREM»
+«DEFINE foreignKeys(String fileName) FOR tables::PersistentTable-»
+«FOREACH this.getForeignKeys() AS fk-»
+
+«EXPAND RootSQL::dropConstraint FOR fk-»
+ALTER TABLE «EXPAND RootSQL::nameschema(this.schema) FOR this.schema»«EXPAND RootSQL::name FOR this-» ADD CONSTRAINT «EXPAND RootSQL::name FOR fk» FOREIGN KEY («EXPAND fkCols FOR fk»)
+ REFERENCES «EXPAND RootSQL::nameschema(this.schema) FOR fk.referencedTable.schema»«EXPAND RootSQL::name FOR fk.referencedTable-»«EXPAND fkRefCols FOR fk-»
+«EXPAND match FOR fk»«EXPAND actions FOR fk»«EXPAND RootSQL::deferrables FOR fk»;
+«EXPAND RootSQL::implicitIndex FOR fk»
+
+«ENDFOREACH-»
+
+«ENDDEFINE»
+
+«DEFINE fkCols FOR constraints::ForeignKey-»
+«FOREACH this.members AS c SEPARATOR ","»«EXPAND RootSQL::name FOR c-»«ENDFOREACH-»
+«ENDDEFINE»
+
+«DEFINE fkRefCols FOR constraints::ForeignKey-»
+«IF this.referencedMembers.size > 0-»
+(«FOREACH this.referencedMembers AS c SEPARATOR ","»«EXPAND RootSQL::name FOR c-»«ENDFOREACH-»)«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE actions FOR constraints::ForeignKey-»
+ ON DELETE «this.onDelete.toString().replaceAll("_"," ")» ON UPDATE «this.onUpdate.toString().replaceAll("_"," ")-»
+«ENDDEFINE»
+
+«DEFINE match FOR constraints::ForeignKey-»
+ «this.match.toString().replaceAll("_"," ")-»
+«ENDDEFINE»
+
+«REM»****************************************************«ENDREM»
+«REM»Table Constraints«ENDREM»
+«REM»****************************************************«ENDREM»
+«DEFINE primaryKey FOR constraints::PrimaryKey-»
+«IF this !=null-»
+«EXPAND RootSQL::dropConstraint FOR this-»
+ALTER TABLE «EXPAND RootSQL::nameschema(this.BaseTable.schema) FOR this.BaseTable.schema»«EXPAND RootSQL::name FOR this.BaseTable-» ADD CONSTRAINT «EXPAND RootSQL::name FOR this-» PRIMARY KEY («FOREACH this.members AS c SEPARATOR ","»«EXPAND RootSQL::name FOR c-»«ENDFOREACH-»
+);
+«EXPAND RootSQL::implicitIndex FOR this»
+«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE checkConstraint FOR constraints::CheckConstraint-»
+
+«EXPAND RootSQL::dropConstraint FOR this-»
+ALTER TABLE  «EXPAND RootSQL::nameschema(this.BaseTable.schema) FOR this.BaseTable.schema»«EXPAND RootSQL::name FOR this.BaseTable-» ADD CONSTRAINT «EXPAND RootSQL::name FOR this» CHECK («this.searchCondition.getSQL()-»
+);
+
+«ENDDEFINE»
+
+«DEFINE uniqueConstraint FOR constraints::UniqueConstraint-»
+
+«EXPAND RootSQL::dropConstraint FOR this-»
+ALTER TABLE  «EXPAND RootSQL::nameschema(this.BaseTable.schema) FOR this.BaseTable.schema»«EXPAND RootSQL::name FOR this.BaseTable-» ADD CONSTRAINT «EXPAND RootSQL::name FOR this» UNIQUE («FOREACH this.members AS c SEPARATOR ","»«EXPAND RootSQL::name FOR c-»«ENDFOREACH-»
+);
+«EXPAND RootSQL::implicitIndex FOR this»
+
+«ENDDEFINE»
+
+«REM»****************************************************«ENDREM»
+«REM»Authorization identifiers «ENDREM»
+
+«REM»***************************************************«ENDREM»
+
+
+«DEFINE role FOR accesscontrol::Role-»
+CREATE ROLE «EXPAND RootSQL::name FOR this-»;
+«ENDDEFINE»
+
+«DEFINE user FOR accesscontrol::User-»
+CREATE USER «EXPAND RootSQL::name FOR this-»;
+«ENDDEFINE»
+
+«DEFINE group FOR accesscontrol::Group-»
+CREATE GROUP «EXPAND RootSQL::name FOR this-»;
+«EXPAND alterGroup FOR this»
+«ENDDEFINE»
+
+«DEFINE alterGroup FOR accesscontrol::Group-»
+«IF  this.user.size > 0-»
+ALTER GROUP «EXPAND RootSQL::name FOR this-» ADD USER «FOREACH this.user AS user SEPARATOR ','-»«EXPAND RootSQL::name FOR user-»«ENDFOREACH-»;
+«ENDIF-»
+«ENDDEFINE»
+
+«REM»****************************************************«ENDREM»
+«REM»Grant Sentence «ENDREM»
+«REM»****************************************************«ENDREM»
+«DEFINE grant FOR accesscontrol::Privilege-»
+«IF this.object!=null»
+GRANT «this.name-» ON «EXPAND object FOR this-» TO «EXPAND grantee_name FOR this.grantee-»
+«ENDIF»
+«ENDDEFINE»
+
+«DEFINE object FOR accesscontrol::Privilege-»
+
+«EXPAND RootSQL::nameschema(this.object.schema) FOR this.object.schema»«EXPAND RootSQL::name FOR this.object-»
+
+«ENDDEFINE»
+
+«DEFINE grantee_name FOR accesscontrol::AuthorizationIdentifier-»
+«EXPAND RootSQL::name FOR this-»;
+«ENDDEFINE»
+
+«DEFINE grantee_name FOR accesscontrol::Group-»
+GROUP «EXPAND RootSQL::name FOR this-»;
+«ENDDEFINE»
+
+«DEFINE grant_roles FOR accesscontrol::AuthorizationIdentifier-»
+«IF this.receivedRoleAuthorization.size > 0-»
+GRANT «EXPAND roleauthorizations FOR this-» TO «EXPAND RootSQL::name FOR this-»;
+ «ENDIF-»
+«ENDDEFINE»
+
+«DEFINE roleauthorizations FOR accesscontrol::AuthorizationIdentifier-»
+«FOREACH this.receivedRoleAuthorization AS ra SEPARATOR ','-»«EXPAND RootSQL::name FOR ra.role-»«ENDFOREACH-»
+«ENDDEFINE»

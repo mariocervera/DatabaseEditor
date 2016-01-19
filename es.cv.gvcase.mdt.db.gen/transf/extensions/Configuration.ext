@@ -1,0 +1,271 @@
+import org::eclipse::emf::ecore;
+import sqlmodel;
+import es::cv::gvcase::modelsync::configuration::transformationConfiguration;
+import es::cv::gvcase::modelsync::configuration::rulesCatalog;
+
+import es::cv::gvcase::mdt::gen::transf;
+
+/**** UseQuotesForNames  ****/
+cached boolean useQuotesForNames(transformationConfiguration::Configuration conf):
+conf.patterns.select(p | p.pattern.name == "DatabaseParameters").parameterValue.select(pp | pp.parameter.name == "UseQuotesForNames") != null ?
+conf.patterns.select(p | p.pattern.name == "DatabaseParameters").parameterValue.select(pp | pp.parameter.name == "UseQuotesForNames").childValue.get(0) :
+false;	
+	
+/**** GenerateComments ****/
+cached boolean generateComments(transformationConfiguration::Configuration conf):
+conf.patterns.select(p | p.pattern.name == "DatabaseParameters").parameterValue.select(pp | pp.parameter.name == "GenerateComments") != null ?
+conf.patterns.select(p | p.pattern.name == "DatabaseParameters").parameterValue.select(pp | pp.parameter.name == "GenerateComments").childValue.get(0) :
+false;	
+
+/**** AdditionalSentences ****/
+cached String additionalSentences(transformationConfiguration::Configuration conf) :
+ let list = conf.patterns.additionalSentences().select(v | v != "") : 
+ 	list.exists(v | true) ? list.get(0).toString() : "";
+
+cached List[String] additionalSentences(transformationConfiguration::ConfiguredPattern confPattern) :
+ confPattern.specifics.element.typeSelect(schema::Database).exists(v | true) ?
+ confPattern.parameterValue.additionalSentences().select(v | true) : {""};
+ 
+cached String additionalSentences(transformationConfiguration::ParameterValue parameterValue) :
+ parameterValue.parameter.name == "AdditionalSentences" ? parameterValue.childValue : "";
+   
+/**** GeneratePrivileges ****/ 
+cached boolean generatePrivileges(transformationConfiguration::Configuration conf):
+conf.patterns.select(p | p.pattern.name == "DatabaseParameters").parameterValue.select(pp | pp.parameter.name == "GeneratePrivileges") != null ?
+conf.patterns.select(p | p.pattern.name == "DatabaseParameters").parameterValue.select(pp | pp.parameter.name == "GeneratePrivileges").childValue.get(0) :
+false;	
+ 
+  
+/**** GenerateUsers ****/
+cached boolean generateUsers(transformationConfiguration::Configuration conf):
+conf.patterns.select(p | p.pattern.name == "DatabaseParameters").parameterValue.select(pp | pp.parameter.name == "GenerateUsers") != null ?
+conf.patterns.select(p | p.pattern.name == "DatabaseParameters").parameterValue.select(pp | pp.parameter.name == "GenerateUsers").childValue.get(0) :
+false;	
+  
+/**** GeneratePrivilegesOnlySchema ****/
+cached boolean generatePrivilegesOnlySchema(transformationConfiguration::Configuration conf) :
+ conf.patterns.generatePrivilegesOnlySchema().exists(v | v == true);
+
+cached boolean generatePrivilegesOnlySchema(transformationConfiguration::ConfiguredPattern confPattern) :
+ confPattern.specifics.element.typeSelect(schema::Database).exists(v | true) &&
+ confPattern.parameterValue.generatePrivilegesOnlySchema().exists(v | v == true);
+ 
+cached boolean generatePrivilegesOnlySchema(transformationConfiguration::ParameterValue parameterValue) :
+ parameterValue.parameter.name == "GeneratePrivilegesOnlySchema" ? parameterValue.childValue : false;
+  
+/**** PrefixSchema ****/
+cached boolean generatePrefixSchema(transformationConfiguration::Configuration conf, schema::Schema schema) :
+ conf.patterns.generatePrefixSchema(schema).exists(v | v == true);
+
+cached boolean generatePrefixSchema(transformationConfiguration::ConfiguredPattern confPattern, schema::Schema schema) :
+ confPattern.specifics.element.typeSelect(schema::Schema).exists(v | v.name == schema.name) &&
+ confPattern.parameterValue.generatePrefixSchema().exists(v | v == true);
+ 
+cached boolean generatePrefixSchema(transformationConfiguration::ParameterValue parameterValue) :
+ parameterValue.parameter.name == "PrefixSchema" ? parameterValue.childValue : false;
+ 
+
+
+/**** CreateSchema ****/
+cached boolean createSchema(transformationConfiguration::Configuration conf, schema::Schema schema) :
+ conf.patterns.createSchema(schema).exists(v | v == true);
+
+cached boolean createSchema(transformationConfiguration::ConfiguredPattern confPattern, schema::Schema schema) :
+ confPattern.specifics.element.typeSelect(schema::Schema).exists(v | v.name == schema.name) &&
+ confPattern.parameterValue.createSchema().exists(v | v == true);
+ 
+cached boolean createSchema(transformationConfiguration::ParameterValue parameterValue) :
+ parameterValue.parameter.name == "CreateSchema" ? parameterValue.childValue : false;
+ 
+/**** Prefix ****/
+
+
+cached String prefix(transformationConfiguration::Configuration conf, schema::SQLObject sqlobject, xpand2::Type type) :
+ let list = conf.patterns.prefix(sqlobject, type).select(v | v != "") : 
+ 	list.exists(v | true) ? list.get(0).toString() : "";
+
+cached List[String] prefix(transformationConfiguration::ConfiguredPattern confPattern, schema::SQLObject sqlobject, xpand2::Type type) :
+ confPattern.specifics.element.typeSelect(schema::SQLObject).exists(v | type.isInstance(v) &&
+ 	v.name == sqlobject.name) ?
+ confPattern.parameterValue.prefix().select(v | true) : {""};
+ 
+cached String prefix(transformationConfiguration::ParameterValue parameterValue) :
+ parameterValue.parameter.name == "Prefix" ? parameterValue.childValue : "";
+ 
+/**** DropBeforeCreate ****/
+
+cached boolean dropBeforeCreate(transformationConfiguration::Configuration conf, schema::SQLObject sqlobject, xpand2::Type type) :
+ conf.patterns.dropBeforeCreate(sqlobject, type).exists(v | v == true);
+
+cached boolean dropBeforeCreate(transformationConfiguration::ConfiguredPattern confPattern, schema::SQLObject sqlobject, xpand2::Type type) :
+ confPattern.specifics.element.typeSelect(schema::SQLObject).exists(v | type.isInstance(v) &&
+ 	v.name == sqlobject.name) &&
+ confPattern.parameterValue.dropBeforeCreate().exists(v | v == true);
+ 
+cached boolean dropBeforeCreate(transformationConfiguration::ParameterValue parameterValue) :
+ parameterValue.parameter.name == "DropBeforeCreate" ? parameterValue.childValue : false;
+ 
+/**** CreateImplicitIndex ****/
+
+cached boolean createImplicitIndex(transformationConfiguration::Configuration conf, schema::SQLObject sqlobject, xpand2::Type type) :
+ conf.patterns.createImplicitIndex(sqlobject, type).exists(v | v == true);
+
+cached boolean createImplicitIndex(transformationConfiguration::ConfiguredPattern confPattern, schema::SQLObject sqlobject, xpand2::Type type) :
+ confPattern.specifics.element.typeSelect(schema::SQLObject).exists(v | type.isInstance(v) &&
+ 	v.name == sqlobject.name) &&
+ confPattern.parameterValue.createImplicitIndex().exists(v | v == true);
+ 
+cached boolean createImplicitIndex(transformationConfiguration::ParameterValue parameterValue) :
+ parameterValue.parameter.name == "CreateImplicitIndex" ? parameterValue.childValue : false;
+ 
+/**** Engine ****/
+
+cached String engine(transformationConfiguration::Configuration conf, tables::PersistentTable table) :
+ let list = conf.patterns.engine(table).select(v | v != "") : 
+ 	list.exists(v | true) ? list.get(0).toString() : "";
+
+cached List[String] engine(transformationConfiguration::ConfiguredPattern confPattern, tables::PersistentTable table) :
+ confPattern.specifics.element.typeSelect(tables::PersistentTable).exists(v | v.name == table.name) ?
+ confPattern.parameterValue.engine().select(v | true) : {""};
+ 
+cached String engine(transformationConfiguration::ParameterValue parameterValue) :
+ parameterValue.parameter.name == "Engine" ? parameterValue.childValue : "";
+ 
+ 
+  
+/********* RULES *****************/
+ 
+/**** Rule DATABASE ****/
+cached String ruleDataBase(transformationConfiguration::Configuration conf):
+	conf.patterns.select(p | p.pattern.name == "DatabaseParameters").first().rule != null ?
+	conf.patterns.select(p | p.pattern.name == "DatabaseParameters").first().rule.name :
+	conf.patterns.select(p | p.pattern.name == "DatabaseParameters").first().defaultRule.name;
+	
+/**** Rule SCHEMA ****/
+cached String ruleSchema(transformationConfiguration::Configuration conf):
+	conf.patterns.select(p | p.pattern.name == "SchemaParameters").first().rule != null ?
+	conf.patterns.select(p | p.pattern.name == "SchemaParameters").first().rule.name :
+	conf.patterns.select(p | p.pattern.name == "SchemaParameters").first().defaultRule.name;
+
+/**** Rule TABLES ****/
+cached String ruleTables(transformationConfiguration::Configuration conf, tables::PersistentTable table):
+	conf.patterns.select(p | p.pattern.name == "PersistentTableParameters" && p.firstElement.name == table.name).first().rule != null ?
+	conf.patterns.select(p | p.pattern.name == "PersistentTableParameters" && p.firstElement.name == table.name).first().rule.name :
+	conf.patterns.select(p | p.pattern.name == "PersistentTableParameters" && p.firstElement.name == table.name).first().defaultRule.name;
+
+	
+/**** Rule COLUMNS ****/
+cached String ruleColumns(transformationConfiguration::Configuration conf, tables::Column column):
+	conf.patterns.select(p | p.pattern.name == "ColumnsParameters" && p.firstElement.name == column.name).first().rule != null ?
+	conf.patterns.select(p | p.pattern.name == "ColumnsParameters" && p.firstElement.name == column.name).first().rule.name :
+	conf.patterns.select(p | p.pattern.name == "ColumnsParameters" && p.firstElement.name == column.name).first().defaultRule.name;
+
+/**** Rule INDEX ****/
+cached String ruleIndex(transformationConfiguration::Configuration conf, constraints::Index index):
+	conf.patterns.select(p | p.pattern.name == "IndexParameters" && p.firstElement.name == index.name).first().rule != null ?
+	conf.patterns.select(p | p.pattern.name == "IndexParameters" && p.firstElement.name == index.name).first().rule.name :
+	conf.patterns.select(p | p.pattern.name == "IndexParameters" && p.firstElement.name == index.name).first().defaultRule.name;
+
+/**** Rule ForeignKey ****/
+cached String ruleForeignKey(transformationConfiguration::Configuration conf, constraints::ForeignKey fk):
+	conf.patterns.select(p | p.pattern.name == "ForeignKeyParameters" && p.firstElement.name == fk.name).first().rule != null ?
+	conf.patterns.select(p | p.pattern.name == "ForeignKeyParameters" && p.firstElement.name == fk.name).first().rule.name :
+	conf.patterns.select(p | p.pattern.name == "ForeignKeyParameters" && p.firstElement.name == fk.name).first().defaultRule.name;
+
+ 
+/**** Rule PrimaryKey ****/
+cached String rulePrimaryKey(transformationConfiguration::Configuration conf, constraints::PrimaryKey pk):
+	conf.patterns.select(p | p.pattern.name == "PrimaryKeyParameters" && p.firstElement.name == pk.name).first().rule != null ?
+	conf.patterns.select(p | p.pattern.name == "PrimaryKeyParameters" && p.firstElement.name == pk.name).first().rule.name :
+	conf.patterns.select(p | p.pattern.name == "PrimaryKeyParameters" && p.firstElement.name == pk.name).first().defaultRule.name;
+
+/**** Rule UniqueConstraint ****/
+cached String ruleUniqueConstraint(transformationConfiguration::Configuration conf, constraints::UniqueConstraint uk):
+	conf.patterns.select(p | p.pattern.name == "UniqueConstraintParameters" && p.firstElement.name == uk.name).first().rule != null ?
+	conf.patterns.select(p | p.pattern.name == "UniqueConstraintParameters" && p.firstElement.name == uk.name).first().rule.name :
+	conf.patterns.select(p | p.pattern.name == "UniqueConstraintParameters" && p.firstElement.name == uk.name).first().defaultRule.name;
+
+
+/**** Rule CheckConstraint ****/
+cached String ruleCheckConstraint(transformationConfiguration::Configuration conf, constraints::CheckConstraint ck):
+	conf.patterns.select(p | p.pattern.name == "CheckConstraintParameters" && p.firstElement.name == ck.name).first().rule != null ?
+	conf.patterns.select(p | p.pattern.name == "CheckConstraintParameters" && p.firstElement.name == ck.name).first().rule.name :
+	conf.patterns.select(p | p.pattern.name == "CheckConstraintParameters" && p.firstElement.name == ck.name).first().defaultRule.name;
+
+
+/**** Rule ROLES ****/
+cached String ruleRoles(transformationConfiguration::Configuration conf, accesscontrol::Role rol) :
+	conf.patterns.select(p | p.pattern.name == "RoleParameters" && p.firstElement.name == rol.name).first().rule != null ?
+	conf.patterns.select(p | p.pattern.name == "RoleParameters" && p.firstElement.name == rol.name).first().rule.name :
+	conf.patterns.select(p | p.pattern.name == "RoleParameters" && p.firstElement.name == rol.name).first().defaultRule.name;
+
+	
+/**** Rule USERS ****/
+cached String ruleUsers(transformationConfiguration::Configuration conf, accesscontrol::User user) :
+	conf.patterns.select(p | p.pattern.name == "UserParameters" && p.firstElement.name == user.name).first().rule != null ?
+	conf.patterns.select(p | p.pattern.name == "UserParameters" && p.firstElement.name == user.name).first().rule.name :
+	conf.patterns.select(p | p.pattern.name == "UserParameters" && p.firstElement.name == user.name).first().defaultRule.name;
+
+/**** Rule SchemaParameters ****/
+cached String schemaparameters(transformationConfiguration::Configuration conf, schema::Schema schema) :
+	conf.patterns.select(p | p.pattern.name == "SchemaParameters" && p.firstElement.name == schema.name).first().rule != null ?
+	conf.patterns.select(p | p.pattern.name == "SchemaParameters" && p.firstElement.name == schema.name).first().rule.name :
+	conf.patterns.select(p | p.pattern.name == "SchemaParameters" && p.firstElement.name == schema.name).first().defaultRule.name;
+
+/**** Rule getCreatePublicSynonyms ****/
+cached boolean getCreatePublicSynonyms(transformationConfiguration::Configuration conf):
+	conf.patterns.select(p | p.pattern.name == "SchemaParameters").parameterValue.select(pv | pv.parameter.name == "CreatePublicSynonyms") != null ?
+	conf.patterns.select(p | p.pattern.name == "SchemaParameters").parameterValue.select(pv | pv.parameter.name == "CreatePublicSynonyms").childValue.get(0) :
+	false;	
+
+  
+	
+/**** Rule CreateCreateSearchPath ****/
+
+cached String getStringCreateSearchPath(transformationConfiguration::Configuration conf, schema::SQLObject sqlobject, xpand2::Type type) :
+ let list = conf.patterns.getStringCreateSearchPath(sqlobject, type).select(v | v != "") : 
+ 	list.exists(v | true) ? list.get(0).toString() : "";
+
+cached List[String] getStringCreateSearchPath(transformationConfiguration::ConfiguredPattern confPattern, schema::SQLObject sqlobject, xpand2::Type type) :
+ confPattern.specifics.element.typeSelect(schema::SQLObject).exists(v | type.isInstance(v) &&
+ 	v.name == sqlobject.name) ?
+ confPattern.parameterValue.getStringCreateSearchPath().select(v | true) : {""};
+ 
+cached String getStringCreateSearchPath(transformationConfiguration::ParameterValue parameterValue) :
+ parameterValue.parameter.name == "SearchPath" ? parameterValue.childValue : "";
+ 	
+	
+cached boolean CreateSearchPath(transformationConfiguration::Configuration conf, schema::SQLObject sqlobject, xpand2::Type type) :
+ conf.patterns.CreateSearchPath(sqlobject, type).exists(v | v == true);
+
+cached boolean CreateSearchPath(transformationConfiguration::ConfiguredPattern confPattern, schema::SQLObject sqlobject, xpand2::Type type) :
+ confPattern.specifics.element.typeSelect(schema::SQLObject).exists(v | type.isInstance(v) &&
+ 	v.name == sqlobject.name) &&
+ confPattern.parameterValue.CreateSearchPath().exists(v | v == true);
+ 
+cached boolean CreateSearchPath(transformationConfiguration::ParameterValue parameterValue) :
+ parameterValue.parameter.name == "CreateSearchPath" ? parameterValue.childValue : false;
+ 
+ 		
+		
+/****************************************************************
+* Formats a string into a non problematic string
+*****************************************************************/
+cached String validStringDesc(String nom):
+	JAVA  es.cv.gvcase.mdt.gen.transf.Extensions.validStringDesc(java.lang.String);			
+	
+	/****************************************************************
+* Formats a string into a non problematic string
+*****************************************************************/
+cached String validString(String nom):
+	JAVA  es.cv.gvcase.mdt.gen.transf.Extensions.validString(java.lang.String);		
+	
+/****************************************************************
+* Actualizar Progress Monitor en Transformaciones
+*****************************************************************/
+Void updateMonitor(String value) : 
+	JAVA  es.cv.gvcase.mdt.gen.transf.Extensions.updateMonitor(java.lang.String);	
+	
+	
+
+	

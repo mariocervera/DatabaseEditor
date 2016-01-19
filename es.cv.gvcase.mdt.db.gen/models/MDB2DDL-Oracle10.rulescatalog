@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rulesCatalog:Catalog xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:rulesCatalog="http:///es.cv.gvcase.rulesCatalog.ecore" xmi:id="_mya_gDXcEeCfU4RUJDVrDw" transformation="DB2DDL-Oracle10">
+  <configurations xmi:id="_mya_gTXcEeCfU4RUJDVrDw">
+    <pattern xmi:id="_mya_gjXcEeCfU4RUJDVrDw" name="PersistentTableParameters" firstElement="_mya_gzXcEeCfU4RUJDVrDw">
+      <elements xmi:id="_mya_gzXcEeCfU4RUJDVrDw" name="PersistentTable">
+        <type xsi:type="ecore:EClass" href="platform:/plugin/org.eclipse.datatools.modelbase.sql/model/sqlmodel.ecore#//tables/PersistentTable"/>
+      </elements>
+    </pattern>
+    <defaultRule href="MDB2DDL.rulescatalog#_f6KHQzXcEeCfU4RUJDVrDw"/>
+    <parameter xmi:id="_mybmkDXcEeCfU4RUJDVrDw" name="StorageDefinition">
+      <type xsi:type="ecore:EDataType" href="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    </parameter>
+  </configurations>
+  <configurations xmi:id="_i7_FcIPREeG7_bghAwUreA">
+    <pattern xmi:id="_jYR_4IPREeG7_bghAwUreA" name="SchemaParameters" firstElement="_j-XvgIPREeG7_bghAwUreA">
+      <elements xmi:id="_j-XvgIPREeG7_bghAwUreA" name="Schema">
+        <type xsi:type="ecore:EClass" href="platform:/plugin/org.eclipse.datatools.modelbase.sql/model/sqlmodel.ecore#//schema/Schema"/>
+      </elements>
+    </pattern>
+    <defaultRule href="MDB2DDL.rulescatalog#_f6KHUjXcEeCfU4RUJDVrDw"/>
+    <parameter xmi:id="_jtbwgIPREeG7_bghAwUreA" name="CreatePublicSynonyms">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameter>
+  </configurations>
+  <catalogs href="MDB2DDL.rulescatalog#_f6KHMDXcEeCfU4RUJDVrDw"/>
+</rulesCatalog:Catalog>

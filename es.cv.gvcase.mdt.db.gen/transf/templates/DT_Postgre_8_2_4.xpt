@@ -1,0 +1,85 @@
+«REM»
+/*******************************************************************************
+ * Copyright (c) 2007 Conselleria de Infraestructuras y Transporte, Generalitat 
+ * de la Comunitat Valenciana. All rights reserved. This program
+ * and the accompanying materials are made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution, and is
+ * available at http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: Gabriel Merin (Integranova) €“ Initial Implementation
+ *
+ ******************************************************************************/
+«ENDREM»
+«IMPORT sqlmodel»
+
+«REM»****************************************************«ENDREM»
+«DEFINE sqlDataType FOR datatypes::CharacterStringDataType-»
+«IF this.primitiveType == datatypes::PrimitiveType::CHARACTER-»
+«IF this.fixedLength == true-»char(«this.length»)«ELSE-»varchar(«this.length»)«ENDIF-»«ELSEIF this.primitiveType == datatypes::PrimitiveType::CHARACTER_VARYING-»
+«IF this.fixedLength == true-»char(«this.length»)«ELSE-»varchar(«this.length»)«ENDIF-»
+«ELSEIF this.primitiveType == datatypes::PrimitiveType::CHARACTER_LARGE_OBJECT-»
+text«ELSE-»«REM»If user selected a non valid primitive type«ENDREM»
+char(«this.length»)«ENDIF-»
+«ENDDEFINE»
+
+«REM»****************************************************«ENDREM»
+«DEFINE sqlDataType FOR datatypes::BooleanDataType-»
+boolean«ENDDEFINE»
+
+«REM»****************************************************«ENDREM»
+«DEFINE sqlDataType FOR datatypes::IntervalDataType-»
+interval («this.fractionalSecondsPrecision»)«ENDDEFINE»
+
+«REM»****************************************************«ENDREM»
+«DEFINE sqlDataType FOR datatypes::BinaryStringDataType-»
+bytea«ENDDEFINE»
+
+«REM»****************************************************«ENDREM»
+«DEFINE sqlDataType FOR datatypes::TimeDataType-»
+«IF this.primitiveType == datatypes::PrimitiveType::TIMESTAMP-»
+timestamp(«this.fractionalSecondsPrecision») «IF this.timeZone == true» with time zone«ENDIF-»
+«ELSE-»
+time(«this.fractionalSecondsPrecision») «IF this.timeZone == true» with time zone«ENDIF-» 
+«ENDIF-»
+«ENDDEFINE»
+
+«REM»****************************************************«ENDREM»
+«DEFINE sqlDataType FOR datatypes::DateDataType-»
+date«ENDDEFINE»
+
+«REM»****************************************************«ENDREM»
+«DEFINE sqlDataType FOR datatypes::ExactNumericDataType-»
+«IF this.primitiveType == datatypes::PrimitiveType::NUMERIC-»
+numeric«ELSEIF this.primitiveType == datatypes::PrimitiveType::DECIMAL-»
+decimal«ELSE-»
+numeric«ENDIF-»
+«IF this.precision > 0 && this.scale > 0-»
+(«this.precision»,«this.scale»)«ELSEIF this.precision >0-»
+(«this.precision»)«ELSE-»
+«ENDIF-»
+«ENDDEFINE»
+
+«REM»****************************************************«ENDREM»
+«DEFINE sqlDataType FOR datatypes::ApproximateNumericDataType-»
+«IF this.precision > 0 »float(«this.precision»)«ELSE-»
+«IF this.primitiveType == datatypes::PrimitiveType::FLOAT-»
+float«ELSEIF this.primitiveType == datatypes::PrimitiveType::REAL-»
+real«ELSEIF this.primitiveType == datatypes::PrimitiveType::DOUBLE_PRECISION-»
+double precision«ELSE-»
+float«ENDIF-»
+«ENDIF-»
+«ENDDEFINE»
+
+«REM»****************************************************«ENDREM»
+«DEFINE sqlDataType FOR datatypes::IntegerDataType-»
+«IF this.primitiveType == datatypes::PrimitiveType::SMALLINT -»
+smallint«ELSEIF this.primitiveType == datatypes::PrimitiveType::BIGINT-»
+bigint«ELSE-»
+integer«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE sqlDataType FOR datatypes::DataType-»«ENDDEFINE»
+
+«DEFINE sqlDataType FOR datatypes::DataLinkDataType-»xml«ENDDEFINE»
+
+«DEFINE sqlDataType FOR datatypes::XMLDataType-»xml«ENDDEFINE»

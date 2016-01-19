@@ -1,0 +1,8 @@
+import org::eclipse::emf::ecore;
+import sqlmodel;
+
+/**
+ * External elements
+ */
+boolean isExternalTable(tables::Table table) :
+	JAVA es.cv.gvcase.mdt.common.util.MDTUtil.isExternalElement(org.eclipse.emf.ecore.EModelElement);
