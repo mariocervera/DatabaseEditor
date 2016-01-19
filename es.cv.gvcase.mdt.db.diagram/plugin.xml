@@ -1,0 +1,886 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+
+   <extension point="org.eclipse.team.core.fileTypes" id="repo-ftype">
+      <?gmfgen generated="true"?>
+      <fileTypes type="text" extension="sqlschema_diagram"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser" id="resource-factory">
+      <?gmfgen generated="true"?>
+      <parser
+         type="sqlschema_diagram"
+         class="org.eclipse.gmf.runtime.emf.core.resources.GMFResourceFactory">
+      </parser>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors" id="moskitt-gmf-editor">
+      <?gmfgen generated="true"?>
+      <editor
+         id="es.cv.gvcase.mdt.common.EditorSite.SharedIdentifier"
+         name="%editorName"
+         icon="icons/obj16/SQLSchemaDiagramFile.gif"
+         extensions="sqlschema_diagram"
+         default="true"
+         
+         class="es.cv.gvcase.mdt.common.part.MOSKittMultiPageEditor"
+         matchingStrategy="es.cv.gvcase.mdt.db.diagram.part.SqlmodelMatchingStrategy"
+         
+         contributorClass="es.cv.gvcase.mdt.common.part.MOSKittMultiPageEditorActionBarContributor">
+      </editor>
+   </extension>
+   
+   <extension point="org.eclipse.ui.contexts" id="ui-context">
+      <?gmfgen generated="true"?>
+      <context
+         description="%context.description"
+         id="es.cv.gvcase.mdt.db.diagram.ui.diagramContext"
+         name="%context.name"
+         parentId="org.eclipse.gmf.runtime.diagram.ui.diagramContext">
+      </context>
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards" id="creation-wizard">
+      <?gmfgen generated="true"?>
+  	  <wizard
+  	     name="%newWizardName"
+  	     icon="icons/obj16/SQLSchemaDiagramFile.gif"
+  	     category="es.cv.gvcase.ide"
+  	     class="es.cv.gvcase.mdt.db.diagram.part.SqlmodelCreationWizard"
+  	     id="es.cv.gvcase.mdt.db.diagram.part.SqlmodelCreationWizardID">
+  	  	 <description>%newWizardDesc</description>  
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.popupMenus" id="init-diagram-action">
+      <?gmfgen generated="true"?>
+      <objectContribution
+            id="es.cv.gvcase.mdt.db.diagram.InitDiagram"
+            nameFilter="*.sqlschema"
+            objectClass="org.eclipse.core.resources.IFile">
+         <action
+               label="%initDiagramActionLabel"
+               class="es.cv.gvcase.mdt.db.diagram.part.SqlmodelInitDiagramFileAction"
+               menubarPath="additions"
+               enablesFor="1"
+               id="es.cv.gvcase.mdt.db.diagram.InitDiagramAction">
+         </action>
+         <action
+               class="es.cv.gvcase.mdt.db.diagram.part.SqlmodelInitDiagramFileAction"
+               enablesFor="1"
+               id="es.cv.gvcase.mdt.db.diagram.CustomizeDiagramAction"
+               label="%customizeDiagramActionLabel"
+               menubarPath="additions">
+         </action>
+      </objectContribution>
+   </extension>
+
+   	
+   <extension point="org.eclipse.gmf.runtime.common.ui.services.action.globalActionHandlerProviders">
+      <?gmfgen generated="false"?>
+      <GlobalActionHandlerProvider
+         class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramGlobalActionHandlerProvider"
+         id="SqlmodelPresentation">
+         <Priority name="Lowest"/>
+         <ViewId id="es.cv.gvcase.mdt.common.EditorSite.SharedIdentifier">
+            <ElementType class="org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart">
+               <GlobalActionId actionId="delete"/>
+            </ElementType>
+            <ElementType class="org.eclipse.gmf.runtime.diagram.ui.editparts.DiagramEditPart">
+               <GlobalActionId actionId="save"/>
+            </ElementType>
+         </ViewId>
+      </GlobalActionHandlerProvider>
+      <GlobalActionHandlerProvider
+         class="es.cv.gvcase.mdt.common.actions.DiagramWithPrintGlobalActionHandlerProvider"
+         id="SqlmodelPresentationPrint">
+         <Priority name="Lowest"/>
+         <ViewId id="es.cv.gvcase.mdt.common.EditorSite.SharedIdentifier">
+            <ElementType class="org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart">
+               <GlobalActionId actionId="print"/>
+            </ElementType>
+         </ViewId>
+      </GlobalActionHandlerProvider>
+      <GlobalActionHandlerProvider
+         class="org.eclipse.gmf.runtime.diagram.ui.providers.ide.providers.DiagramIDEGlobalActionHandlerProvider"
+         id="SqlmodelPresentationIDE">
+         <Priority name="Lowest"/>
+         <ViewId id="es.cv.gvcase.mdt.common.EditorSite.SharedIdentifier">
+            <ElementType class="org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart">
+               <GlobalActionId actionId="bookmark"/>
+            </ElementType>
+         </ViewId>
+      </GlobalActionHandlerProvider>
+   </extension>
+
+   
+   <extension point="org.eclipse.core.runtime.preferences" id="prefs">
+      <?gmfgen generated="true"?>
+      <initializer class="es.cv.gvcase.mdt.db.diagram.preferences.DiagramPreferenceInitializer"/>
+   </extension>
+
+   <extension point="org.eclipse.ui.preferencePages" id="prefpages">
+      <?gmfgen generated="true"?>
+      <page
+            id="org.eclipse.datatools.modelbase.sql.diagram.general"
+            name="%prefpage.org.eclipse.datatools.modelbase.sql.diagram.general"
+            class="es.cv.gvcase.mdt.db.diagram.preferences.DiagramGeneralPreferencePage">
+      </page>
+      <page
+            id="org.eclipse.datatools.modelbase.sql.diagram.appearance"
+            name="%prefpage.org.eclipse.datatools.modelbase.sql.diagram.appearance"
+            category="org.eclipse.datatools.modelbase.sql.diagram.general"
+            class="es.cv.gvcase.mdt.db.diagram.preferences.DiagramAppearancePreferencePage">
+      </page>
+      <page
+            id="org.eclipse.datatools.modelbase.sql.diagram.connections"
+            name="%prefpage.org.eclipse.datatools.modelbase.sql.diagram.connections"
+            category="org.eclipse.datatools.modelbase.sql.diagram.general"
+            class="es.cv.gvcase.mdt.db.diagram.preferences.DiagramConnectionsPreferencePage">
+      </page>
+      <page
+            id="org.eclipse.datatools.modelbase.sql.diagram.printing"
+            name="%prefpage.org.eclipse.datatools.modelbase.sql.diagram.printing"
+            category="org.eclipse.datatools.modelbase.sql.diagram.general"
+            class="es.cv.gvcase.mdt.db.diagram.preferences.DiagramPrintingPreferencePage">
+      </page>
+      <page
+            id="org.eclipse.datatools.modelbase.sql.diagram.rulersAndGrid"
+            name="%prefpage.org.eclipse.datatools.modelbase.sql.diagram.rulersAndGrid"
+            category="org.eclipse.datatools.modelbase.sql.diagram.general"
+            class="es.cv.gvcase.mdt.db.diagram.preferences.DiagramRulersAndGridPreferencePage">
+      </page>
+      <page
+            id="org.eclipse.datatools.modelbase.sql.diagram.pathmaps"
+            name="%prefpage.org.eclipse.datatools.modelbase.sql.diagram.pathmaps"
+            category="org.eclipse.datatools.modelbase.sql.diagram.general"
+            class="org.eclipse.gmf.runtime.emf.ui.preferences.PathmapsPreferencePage">
+      </page>
+   </extension>
+
+
+
+
+   <extension point="org.eclipse.gmf.runtime.diagram.core.viewProviders" id="view-provider">
+      <?gmfgen generated="true"?>
+      <viewProvider class="es.cv.gvcase.mdt.db.diagram.providers.SqlmodelViewProvider">
+         <Priority name="Lowest"/>
+         <object id="referencing-diagrams" class="org.eclipse.gmf.runtime.notation.Diagram">
+            <method name="getType()" value="Sqlmodel"/>
+         </object>
+         <context viewClass="org.eclipse.gmf.runtime.notation.Node" containerViews="referencing-diagrams"/>
+         <context viewClass="org.eclipse.gmf.runtime.notation.Diagram" semanticHints="Sqlmodel"/>
+         <context viewClass="org.eclipse.gmf.runtime.notation.Node" semanticHints="1001,1002,2001,2002,2003"/>
+         <context viewClass="org.eclipse.gmf.runtime.notation.Edge" semanticHints="3001,3002"/>
+      </viewProvider>
+   </extension>
+
+   <extension point="org.eclipse.gmf.runtime.diagram.ui.editpartProviders" id="ep-provider">
+      <?gmfgen generated="true"?>
+      <editpartProvider class="es.cv.gvcase.mdt.db.diagram.providers.SqlmodelEditPartProvider">
+         <Priority name="Lowest"/>
+         <object class="org.eclipse.gmf.runtime.notation.Diagram" id="generated-diagram">
+            <method name="getType()" value="Sqlmodel"/>
+         </object>
+         <object class="org.eclipse.gmf.runtime.notation.Node" id="generated-nodes">
+            <method name="getType()" value="1001,1002,2001,2002,2003"/>
+         </object>
+         <object class="org.eclipse.gmf.runtime.notation.Edge" id="generated-links">
+            <method name="getType()" value="3001,3002"/>
+         </object>
+         <object class="org.eclipse.gmf.runtime.notation.Node" id="generated-labels">
+            <method name="getType()" value="4001,4002"/>
+         </object>
+         <object class="org.eclipse.gmf.runtime.notation.Node" id="generated-compartments">
+            <method name="getType()" value="5001,5002,5003"/>
+         </object>
+         <context views="generated-diagram,generated-nodes,generated-links,generated-labels,generated-compartments"/>
+      </editpartProvider>
+   </extension>
+
+   <extension point="org.eclipse.gmf.runtime.emf.ui.modelingAssistantProviders" id="modelassist-provider">
+      <?gmfgen generated="true"?>
+      <modelingAssistantProvider class="es.cv.gvcase.mdt.db.diagram.providers.SqlmodelModelingAssistantProvider">
+         <Priority name="Lowest"/>
+         <object class="es.cv.gvcase.mdt.db.diagram.edit.parts.SchemaEditPart" id="Schema_1000"/>
+         <object class="es.cv.gvcase.mdt.db.diagram.edit.parts.PersistentTableEditPart" id="PersistentTable_1001"/>
+         <object class="es.cv.gvcase.mdt.db.diagram.edit.parts.ViewTableEditPart" id="ViewTable_1002"/>
+         <object class="es.cv.gvcase.mdt.db.diagram.edit.parts.ColumnEditPart" id="Column_2001"/>
+         <object class="es.cv.gvcase.mdt.db.diagram.edit.parts.Column2EditPart" id="Column_2002"/>
+         <object class="es.cv.gvcase.mdt.db.diagram.edit.parts.PersistentTable2EditPart" id="PersistentTable_2003"/>
+         <object class="es.cv.gvcase.mdt.db.diagram.edit.parts.PersistentTablePersistentColumnTableCompartmentEditPart" id="PersistentTablePersistentColumnTableCompartment_5001"/>
+         <object class="es.cv.gvcase.mdt.db.diagram.edit.parts.ViewTableViewedColumnsEditPart" id="ViewTableViewedColumns_5002"/>
+         <object class="es.cv.gvcase.mdt.db.diagram.edit.parts.ViewTableViewedTablesEditPart" id="ViewTableViewedTables_5003"/>
+         <object class="es.cv.gvcase.mdt.db.diagram.edit.parts.SchemaEditPart" id="Schema_1000"/>
+         <context elements="PersistentTable_1001,ViewTable_1002,Column_2001,Column_2002,PersistentTable_2003,PersistentTablePersistentColumnTableCompartment_5001,ViewTableViewedColumns_5002,ViewTableViewedTables_5003,Schema_1000"/>
+      </modelingAssistantProvider>
+   </extension>
+
+   <extension point="org.eclipse.gmf.runtime.common.ui.services.iconProviders" id="icon-provider">
+      <?gmfgen generated="true"?>
+      <IconProvider class="es.cv.gvcase.mdt.db.diagram.providers.SqlmodelIconProvider">
+         <Priority name="Low"/>
+      </IconProvider>
+   </extension>
+
+   <extension point="org.eclipse.gmf.runtime.common.ui.services.parserProviders" id="parser-provider">
+      <?gmfgen generated="true"?>
+      <ParserProvider class="es.cv.gvcase.mdt.db.diagram.providers.SqlmodelParserProvider">
+         <Priority name="Lowest"/>
+      </ParserProvider>
+   </extension>
+
+   <extension point="org.eclipse.gmf.runtime.emf.type.core.elementTypes" id="element-types">
+      <?gmfgen generated="true"?>
+      <metamodel nsURI="http:///org/eclipse/datatools/modelbase/sql/schema.ecore">
+         <metamodelType
+               id="es.cv.gvcase.mdt.db.diagram.Schema_1000"
+               name="%metatype.name.Schema_1000"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="Schema"
+               edithelper="es.cv.gvcase.mdt.db.diagram.edit.helpers.SchemaEditHelper">
+            <param name="semanticHint" value="1000"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http:///org/eclipse/datatools/modelbase/sql/tables.ecore">
+         <metamodelType
+               id="es.cv.gvcase.mdt.db.diagram.PersistentTable_1001"
+               name="%metatype.name.PersistentTable_1001"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="PersistentTable"
+               edithelper="es.cv.gvcase.mdt.db.diagram.edit.helpers.PersistentTableEditHelper">
+            <param name="semanticHint" value="1001"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http:///org/eclipse/datatools/modelbase/sql/tables.ecore">
+         <metamodelType
+               id="es.cv.gvcase.mdt.db.diagram.ViewTable_1002"
+               name="%metatype.name.ViewTable_1002"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="ViewTable"
+               edithelper="es.cv.gvcase.mdt.db.diagram.edit.helpers.ViewTableEditHelper">
+            <param name="semanticHint" value="1002"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http:///org/eclipse/datatools/modelbase/sql/tables.ecore">
+         <metamodelType
+               id="es.cv.gvcase.mdt.db.diagram.Column_2001"
+               name="%metatype.name.Column_2001"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="Column"
+               edithelper="es.cv.gvcase.mdt.db.diagram.edit.helpers.ColumnEditHelper">
+            <param name="semanticHint" value="2001"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http:///org/eclipse/datatools/modelbase/sql/tables.ecore">
+         <specializationType
+               id="es.cv.gvcase.mdt.db.diagram.Column_2002"
+               name="%metatype.name.Column_2002"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType">
+            <specializes id="es.cv.gvcase.mdt.db.diagram.Column_2001"/>
+            <param name="semanticHint" value="2002"/>
+         </specializationType>
+      </metamodel>
+      <metamodel nsURI="http:///org/eclipse/datatools/modelbase/sql/tables.ecore">
+         <specializationType
+               id="es.cv.gvcase.mdt.db.diagram.PersistentTable_2003"
+               name="%metatype.name.PersistentTable_2003"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType">
+            <specializes id="es.cv.gvcase.mdt.db.diagram.PersistentTable_1001"/>
+            <param name="semanticHint" value="2003"/>
+         </specializationType>
+      </metamodel>
+      <metamodel nsURI="http:///org/eclipse/datatools/modelbase/sql/constraints.ecore">
+         <metamodelType
+               id="es.cv.gvcase.mdt.db.diagram.ForeignKey_3001"
+               name="%metatype.name.ForeignKey_3001"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="ForeignKey"
+               edithelper="es.cv.gvcase.mdt.db.diagram.edit.helpers.ForeignKeyEditHelper">
+            <param name="semanticHint" value="3001"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http:///org/eclipse/datatools/modelbase/sql/tables.ecore">
+         <specializationType
+               id="es.cv.gvcase.mdt.db.diagram.ViewTableViewedTables_3002"
+               name="%metatype.name.ViewTableViewedTables_3002"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType">
+            <specializes id="org.eclipse.gmf.runtime.emf.type.core.null"/>
+            <param name="semanticHint" value="3002"/>
+         </specializationType>
+      </metamodel>
+   </extension>
+
+   <extension point="org.eclipse.gmf.runtime.emf.type.core.elementTypeBindings" id="element-types-bindings">
+      <?gmfgen generated="true"?>
+      <clientContext id="es.cv.gvcase.mdt.db.diagram.TypeContext">
+         <enablement>
+            <test
+               property="org.eclipse.gmf.runtime.emf.core.editingDomain"
+               value="es.cv.gvcase.mdt.db.diagram.EditingDomain"/>
+         </enablement>
+      </clientContext> 
+      <binding context="es.cv.gvcase.mdt.db.diagram.TypeContext">
+         <elementType ref="es.cv.gvcase.mdt.db.diagram.Schema_1000"/>
+         <elementType ref="es.cv.gvcase.mdt.db.diagram.PersistentTable_1001"/>
+         <elementType ref="es.cv.gvcase.mdt.db.diagram.ViewTable_1002"/>
+         <elementType ref="es.cv.gvcase.mdt.db.diagram.Column_2001"/>
+         <elementType ref="es.cv.gvcase.mdt.db.diagram.Column_2002"/>
+         <elementType ref="es.cv.gvcase.mdt.db.diagram.PersistentTable_2003"/>
+         <elementType ref="es.cv.gvcase.mdt.db.diagram.ForeignKey_3001"/>
+         <elementType ref="es.cv.gvcase.mdt.db.diagram.ViewTableViewedTables_3002"/>
+         <advice ref="org.eclipse.gmf.runtime.diagram.core.advice.notationDepdendents"/>
+      </binding>
+   </extension>
+	   <extension point="org.eclipse.core.expressions.propertyTesters" id="navigator-proptest.isURIEditorInput">
+      <?gmfgen generated="true"?>
+       <propertyTester
+           id="es.cv.gvcase.mdt.db.diagram.URIEditorInputPropertyTester"
+           type="org.eclipse.emf.common.ui.URIEditorInput"
+           namespace="es.cv.gvcase.mdt.db.diagram"
+           properties="isURIEditorInput"
+           class="es.cv.gvcase.mdt.db.diagram.part.SqlmodelUriEditorInputTester">
+       </propertyTester>
+   </extension>
+
+	   <extension point="org.eclipse.core.expressions.propertyTesters" id="navigator-proptest.isShortcut">
+      <?gmfgen generated="true"?>
+       <propertyTester
+           id="es.cv.gvcase.mdt.db.diagram.ShortcutPropertyTester"
+           type="org.eclipse.gmf.runtime.notation.View"
+           namespace="es.cv.gvcase.mdt.db.diagram"
+           properties="isShortcut"
+           class="es.cv.gvcase.mdt.db.diagram.part.SqlmodelShortcutPropertyTester">
+       </propertyTester>
+   </extension>
+
+	   <extension point="org.eclipse.ui.navigator.viewer" id="navigator-viewbinding">
+      <?gmfgen generated="true"?>
+      <viewerContentBinding viewerId="org.eclipse.ui.navigator.ProjectExplorer">
+         <includes>
+            <contentExtension pattern="es.cv.gvcase.mdt.db.diagram.resourceContent"/>
+			<contentExtension pattern="es.cv.gvcase.mdt.db.diagram.domainResourceContent"/>
+            <contentExtension pattern="es.cv.gvcase.mdt.db.diagram.navigatorLinkHelper"/>
+         </includes>
+      </viewerContentBinding>
+      <viewerActionBinding viewerId="org.eclipse.ui.navigator.ProjectExplorer">
+         <includes>
+            <actionExtension pattern="es.cv.gvcase.mdt.db.diagram.navigatorActionProvider"/>
+         </includes>
+      </viewerActionBinding>
+   </extension>
+
+   <extension point="org.eclipse.ui.navigator.navigatorContent" id="navigator-content">
+      <?gmfgen generated="true"?>
+      <navigatorContent
+            id="es.cv.gvcase.mdt.db.diagram.resourceContent" 
+            name="%navigatorContentName" 
+            priority="normal" 
+            contentProvider="es.cv.gvcase.mdt.db.diagram.navigator.SqlmodelNavigatorContentProvider" 
+            labelProvider="es.cv.gvcase.mdt.db.diagram.navigator.SqlmodelNavigatorLabelProvider"
+            icon="icons/obj16/SQLSchemaDiagramFile.gif"
+            activeByDefault="true">
+         <triggerPoints>
+            <or>
+	           <and>
+    	          <instanceof value="org.eclipse.core.resources.IFile"/>
+        	      <test property="org.eclipse.core.resources.extension" value="sqlschema_diagram"/>
+               </and>
+               <instanceof value="es.cv.gvcase.mdt.db.diagram.navigator.SqlmodelAbstractNavigatorItem"/>
+           	   <adapt type="org.eclipse.gmf.runtime.notation.View">
+           	      <test property="es.cv.gvcase.mdt.db.diagram.isShortcut"/>
+           	   </adapt>
+            </or>
+         </triggerPoints>
+         <possibleChildren>
+            <or>
+         	   <instanceof value="es.cv.gvcase.mdt.db.diagram.navigator.SqlmodelAbstractNavigatorItem"/>
+           	   <adapt type="org.eclipse.gmf.runtime.notation.View">
+           	      <test property="es.cv.gvcase.mdt.db.diagram.isShortcut"/>
+           	   </adapt>
+            </or>
+         </possibleChildren>
+         <commonSorter 
+               id="es.cv.gvcase.mdt.db.diagram.navigatorSorter" 
+               class="es.cv.gvcase.mdt.db.diagram.navigator.SqlmodelNavigatorSorter">
+            <parentExpression>
+               <or>
+	              <and>
+    	             <instanceof value="org.eclipse.core.resources.IFile"/>
+        	         <test property="org.eclipse.core.resources.extension" value="sqlschema_diagram"/>
+                  </and>
+                  <instanceof value="es.cv.gvcase.mdt.db.diagram.navigator.SqlmodelAbstractNavigatorItem"/>
+               </or>
+            </parentExpression>
+         </commonSorter>
+      </navigatorContent>
+      <navigatorContent
+            id="es.cv.gvcase.mdt.db.diagram.domainResourceContent" 
+            name="%domainNavigatorContentName" 
+            priority="normal" 
+            contentProvider="es.cv.gvcase.mdt.db.diagram.navigator.SqlmodelDomainNavigatorContentProvider" 
+            labelProvider="es.cv.gvcase.mdt.db.diagram.navigator.SqlmodelDomainNavigatorLabelProvider"
+            icon="icons/obj16/SQLSchemaDiagramFile.gif"
+            activeByDefault="true">
+         <triggerPoints>
+            <or>
+	           <and>
+    	          <instanceof value="org.eclipse.core.resources.IFile"/>
+        	      <test property="org.eclipse.core.resources.extension" value="sqlschema"/>
+               </and>
+               <instanceof value="es.cv.gvcase.mdt.db.diagram.navigator.SqlmodelDomainNavigatorItem"/>
+            </or>
+         </triggerPoints>
+         <possibleChildren>
+            <instanceof value="es.cv.gvcase.mdt.db.diagram.navigator.SqlmodelDomainNavigatorItem"/>
+         </possibleChildren>
+      </navigatorContent>
+      <actionProvider
+            id="es.cv.gvcase.mdt.db.diagram.navigatorActionProvider"
+            class="es.cv.gvcase.mdt.db.diagram.navigator.SqlmodelNavigatorActionProvider">
+         <enablement>
+            <or>
+               <instanceof value="es.cv.gvcase.mdt.db.diagram.navigator.SqlmodelAbstractNavigatorItem"/>
+           	   <adapt type="org.eclipse.gmf.runtime.notation.View">
+           	      <test property="es.cv.gvcase.mdt.db.diagram.isShortcut"/>
+           	   </adapt>
+            </or>
+         </enablement>
+      </actionProvider>
+   </extension>
+   
+	   <extension point="org.eclipse.ui.navigator.linkHelper" id="navigator-linkhelper">
+      <?gmfgen generated="true"?>
+      <linkHelper
+            id="es.cv.gvcase.mdt.db.diagram.navigatorLinkHelper"
+            class="es.cv.gvcase.mdt.db.diagram.navigator.SqlmodelNavigatorLinkHelper">
+         <editorInputEnablement>
+            <and>
+               <instanceof value="org.eclipse.emf.common.ui.URIEditorInput"/>
+               <test property="es.cv.gvcase.mdt.db.diagram.isURIEditorInput"/>
+            </and>
+         </editorInputEnablement>
+         <selectionEnablement>
+            <instanceof value="es.cv.gvcase.mdt.db.diagram.navigator.SqlmodelAbstractNavigatorItem"/>
+         </selectionEnablement>
+      </linkHelper>
+   </extension>
+   <extension point="org.eclipse.ui.commands" id="update-cmd">
+      <?gmfgen generated="true"?>
+      <command
+         categoryId="org.eclipse.ui.category.edit"
+         defaultHandler="es.cv.gvcase.mdt.db.diagram.part.SqlmodelDiagramUpdateCommand"
+         description="%update.diagram.description"
+         id="es.cv.gvcase.mdt.db.diagram.updateDiagram"
+         name="%update.diagram.name"/>
+   </extension>
+   
+   <extension point="org.eclipse.ui.bindings" id="update-cmd-binding">
+      <?gmfgen generated="true"?>
+      <key 
+         commandId="es.cv.gvcase.mdt.db.diagram.updateDiagram"
+         contextId="es.cv.gvcase.mdt.db.diagram.ui.diagramContext"
+         schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+         sequence="F5"/>
+   </extension>
+<extension
+      point="org.eclipse.gmf.runtime.common.ui.services.action.contributionItemProviders">
+   <contributionItemProvider
+         checkPluginLoaded="true"
+         class="es.cv.gvcase.mdt.db.diagram.common.actions.CreateDiagramItemProvider">
+      <Priority
+            name="Medium">
+      </Priority>
+      <popupContribution
+            class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+         <popupMenuGroup
+               id="CreateDiagramGroup"
+               path="/propertiesGroup">
+         </popupMenuGroup>
+         <popupMenu
+               id="menu_create_diagram"
+               path="/CreateDiagramGroup">
+         </popupMenu>
+         <popupStructuredContributionCriteria
+               policyClass="es.cv.gvcase.mdt.db.diagram.common.actions.CreateDiagramPopupMenuContributionPolicy">
+         </popupStructuredContributionCriteria>
+      </popupContribution>
+   </contributionItemProvider>
+</extension><extension point="org.eclipse.gmf.runtime.diagram.ui.decoratorProviders" id="decorator-provider">
+      <?gmfgen generated="true"?>
+      <decoratorProvider class="es.cv.gvcase.mdt.db.diagram.providers.SqlmodelShortcutsDecoratorProvider">
+         <Priority name="Lowest"/>
+         <object class="org.eclipse.gmf.runtime.notation.Node(org.eclipse.gmf.runtime.notation)" id="generated-top-nodes">
+            <method name="getType()" value="1001,1002"/>
+         </object>
+         <context decoratorTargets="generated-top-nodes"/>
+      </decoratorProvider>
+   </extension>
+<extension point="org.eclipse.ui.views.properties.tabbed.propertyContributor" id="prop-contrib">
+      <?gmfgen generated="true"?>
+      <propertyContributor
+            contributorId="es.cv.gvcase.mdt.db.diagram"
+            labelProvider="es.cv.gvcase.mdt.db.diagram.sheet.SqlmodelSheetLabelProvider">
+         <propertyCategory category="domain"/>
+         <propertyCategory category="visual"/>
+         <propertyCategory category="extra"/>
+      </propertyContributor>
+   </extension>
+<extension point="org.eclipse.ui.views.properties.tabbed.propertyTabs" id="proptabs">
+      <?gmfgen generated="true"?>   
+      <propertyTabs contributorId="es.cv.gvcase.mdt.db.diagram">
+         <propertyTab
+             category="visual"
+             id="property.tab.AppearancePropertySection"
+             label="%tab.appearance"/>
+          <propertyTab
+             category="visual"
+             id="property.tab.DiagramPropertySection"
+             label="%tab.diagram"/>
+          <propertyTab
+             category="domain"
+             id="property.tab.domain"
+             label="%tab.domain"/>
+      </propertyTabs>
+   </extension>
+<extension point="org.eclipse.ui.views.properties.tabbed.propertySections" id="propsections">
+      <?gmfgen generated="true"?>   
+      <propertySections contributorId="es.cv.gvcase.mdt.db.diagram">
+         <propertySection id="property.section.ConnectorAppearancePropertySection" 
+            filter="org.eclipse.gmf.runtime.diagram.ui.properties.filters.ConnectionEditPartPropertySectionFilter" 
+            class="org.eclipse.gmf.runtime.diagram.ui.properties.sections.appearance.ConnectionAppearancePropertySection" 
+            tab="property.tab.AppearancePropertySection">
+         </propertySection>
+         <propertySection id="property.section.ShapeColorAndFontPropertySection" 
+            filter="org.eclipse.gmf.runtime.diagram.ui.properties.filters.ShapeEditPartPropertySectionFilter" 
+            class="org.eclipse.gmf.runtime.diagram.ui.properties.sections.appearance.ShapeColorsAndFontsPropertySection" 
+            tab="property.tab.AppearancePropertySection">
+         </propertySection> 
+         <propertySection id="property.section.DiagramColorsAndFontsPropertySection" 
+            filter="org.eclipse.gmf.runtime.diagram.ui.properties.filters.DiagramEditPartPropertySectionFilter" 
+            class="org.eclipse.gmf.runtime.diagram.ui.properties.sections.appearance.DiagramColorsAndFontsPropertySection" 
+            tab="property.tab.AppearancePropertySection">
+         </propertySection>     
+         <propertySection id="property.section.RulerGridPropertySection" 
+            filter="org.eclipse.gmf.runtime.diagram.ui.properties.filters.DiagramEditPartPropertySectionFilter" 
+            class="org.eclipse.gmf.runtime.diagram.ui.properties.sections.grid.RulerGridPropertySection" 
+            tab="property.tab.DiagramPropertySection">
+         </propertySection>     
+         <propertySection
+            id="property.section.domain" 
+            tab="property.tab.domain"
+            class="es.cv.gvcase.mdt.db.diagram.sheet.SqlmodelPropertySection">
+            <input type="org.eclipse.gmf.runtime.notation.View"/>
+            <input type="org.eclipse.gef.EditPart"/>
+            <input type="es.cv.gvcase.mdt.db.diagram.navigator.SqlmodelAbstractNavigatorItem"/>
+         </propertySection>
+      </propertySections>
+   </extension>
+<extension
+            point="es.cv.gvcase.mdt.common.modelToEditorMap">
+         <modelToEditor
+               editorID="es.cv.gvcase.mdt.db.diagram.part.SqlmodelDiagramEditorID"
+               modelID="Sqlmodel"
+               label="Sqlmodel">
+         </modelToEditor>
+      </extension><extension point="es.cv.gvcase.mdt.common.viewInfo">
+		<?gmfgen generated="true"?>
+		<RootViewInfo
+			editorID="es.cv.gvcase.mdt.db.diagram.part.SqlmodelDiagramEditorID"
+			modelTypes="es.cv.gvcase.mdt.common.provider.ModelTypesProviderFactory">
+			
+	
+		<BaseViewInfo
+			elementType="es.cv.gvcase.mdt.db.diagram.Schema_1000"
+			label="%viewInfo.1000"
+			type="Head"
+			visualID="1000">
+		</BaseViewInfo>
+		
+	
+		<BaseViewInfo
+			elementType="es.cv.gvcase.mdt.db.diagram.PersistentTable_1001"
+			label="%viewInfo.1001"
+			parent="1000"
+			type="Node"
+			visualID="1001">
+		</BaseViewInfo>
+				
+	
+
+	
+		<BaseViewInfo
+			elementType="es.cv.gvcase.mdt.db.diagram.ViewTable_1002"
+			label="%viewInfo.1002"
+			parent="1000"
+			type="Node"
+			visualID="1002">
+		</BaseViewInfo>
+				
+	
+		
+	
+			
+	
+										<BaseViewInfo
+					elementType="es.cv.gvcase.mdt.db.diagram.Column_2001"
+					label="%viewInfo.2001"
+					parent="1001"
+					type="Node"
+					visualID="2001">
+				</BaseViewInfo>
+																														
+	
+			
+	
+																		<BaseViewInfo
+					elementType="es.cv.gvcase.mdt.db.diagram.Column_2002"
+					label="%viewInfo.2002"
+					parent="1002"
+					type="Node"
+					visualID="2002">
+				</BaseViewInfo>
+																						
+	
+			
+	
+																							<BaseViewInfo
+					elementType="es.cv.gvcase.mdt.db.diagram.PersistentTable_2003"
+					label="%viewInfo.2003"
+					parent="1002"
+					type="Node"
+					visualID="2003">
+				</BaseViewInfo>
+																			
+	
+		<BaseViewInfo
+			elementType="es.cv.gvcase.mdt.db.diagram.ForeignKey_3001"
+			label="%viewInfo.3001"
+			parent="1000"
+			type="Edge"
+			visualID="3001">
+		</BaseViewInfo>
+				
+	
+		<BaseViewInfo
+			elementType="es.cv.gvcase.mdt.db.diagram.ForeignKey_3001"
+			label="%viewInfo.4003"
+			parent="3001"
+			type="Label"
+			visualID="4003">
+		</BaseViewInfo>
+
+	
+		<BaseViewInfo
+			elementType="es.cv.gvcase.mdt.db.diagram.ViewTableViewedTables_3002"
+			label="%viewInfo.3002"
+			parent="1000"
+			type="Edge"
+			visualID="3002">
+		</BaseViewInfo>
+						</RootViewInfo>
+	</extension>
+<extension
+		point="es.cv.gvcase.mdt.common.moskittEditorFactory">
+		<?gmfgen generated="true"?>
+		<MOSKittEditorFactory
+			diagramType="Sqlmodel"
+			editorID="es.cv.gvcase.mdt.db.diagram.part.SqlmodelDiagramEditorID"
+			factory="es.cv.gvcase.mdt.db.diagram.part.SqlmodelDiagramEditorUtil">
+		</MOSKittEditorFactory>
+	</extension>
+<extension
+         point="org.eclipse.emf.edit.itemProviderAdapterFactories">
+      <factory
+            class="org.eclipse.datatools.modelbase.sql.accesscontrol.provider.SQLAccessControlItemProviderAdapterFactory"
+            uri="http:///org/eclipse/datatools/modelbase/sql/accesscontrol.ecore"
+            supportedTypes = 
+         "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
+          org.eclipse.emf.edit.provider.IStructuredItemContentProvider
+          org.eclipse.emf.edit.provider.ITreeItemContentProvider
+          org.eclipse.emf.edit.provider.IItemLabelProvider
+          org.eclipse.emf.edit.provider.IItemPropertySource" />
+      <factory
+            class="org.eclipse.datatools.modelbase.sql.statements.provider.SQLStatementsItemProviderAdapterFactory"
+            uri="http:///org/eclipse/datatools/modelbase/sql/statements.ecore"
+            supportedTypes = 
+         "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
+          org.eclipse.emf.edit.provider.IStructuredItemContentProvider
+          org.eclipse.emf.edit.provider.ITreeItemContentProvider
+          org.eclipse.emf.edit.provider.IItemLabelProvider
+          org.eclipse.emf.edit.provider.IItemPropertySource" />
+      <factory
+            class="org.eclipse.datatools.modelbase.sql.tables.provider.SQLTablesItemProviderAdapterFactory"
+            uri="http:///org/eclipse/datatools/modelbase/sql/tables.ecore"
+            supportedTypes = 
+         "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
+          org.eclipse.emf.edit.provider.IStructuredItemContentProvider
+          org.eclipse.emf.edit.provider.ITreeItemContentProvider
+          org.eclipse.emf.edit.provider.IItemLabelProvider
+          org.eclipse.emf.edit.provider.IItemPropertySource" />
+      <factory
+            class="org.eclipse.datatools.modelbase.sql.schema.provider.SQLSchemaItemProviderAdapterFactory"
+            uri="http:///org/eclipse/datatools/modelbase/sql/schema.ecore"
+            supportedTypes = 
+         "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
+          org.eclipse.emf.edit.provider.IStructuredItemContentProvider
+          org.eclipse.emf.edit.provider.ITreeItemContentProvider
+          org.eclipse.emf.edit.provider.IItemLabelProvider
+          org.eclipse.emf.edit.provider.IItemPropertySource" />
+      <factory
+            class="org.eclipse.datatools.modelbase.sql.routines.provider.SQLRoutinesItemProviderAdapterFactory"
+            uri="http:///org/eclipse/datatools/modelbase/sql/routines.ecore"
+            supportedTypes = 
+         "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
+          org.eclipse.emf.edit.provider.IStructuredItemContentProvider
+          org.eclipse.emf.edit.provider.ITreeItemContentProvider
+          org.eclipse.emf.edit.provider.IItemLabelProvider
+          org.eclipse.emf.edit.provider.IItemPropertySource" />
+      <factory
+            class="org.eclipse.datatools.modelbase.sql.expressions.provider.SQLExpressionsItemProviderAdapterFactory"
+            uri="http:///org/eclipse/datatools/modelbase/sql/expressions.ecore"
+            supportedTypes = 
+         "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
+          org.eclipse.emf.edit.provider.IStructuredItemContentProvider
+          org.eclipse.emf.edit.provider.ITreeItemContentProvider
+          org.eclipse.emf.edit.provider.IItemLabelProvider
+          org.eclipse.emf.edit.provider.IItemPropertySource" />
+      <factory
+            class="org.eclipse.datatools.modelbase.sql.datatypes.provider.SQLDataTypesItemProviderAdapterFactory"
+            uri="http:///org/eclipse/datatools/modelbase/sql/datatypes.ecore"
+            supportedTypes = 
+         "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
+          org.eclipse.emf.edit.provider.IStructuredItemContentProvider
+          org.eclipse.emf.edit.provider.ITreeItemContentProvider
+          org.eclipse.emf.edit.provider.IItemLabelProvider
+          org.eclipse.emf.edit.provider.IItemPropertySource" />
+      <factory
+            class="org.eclipse.datatools.modelbase.sql.constraints.provider.SQLConstraintsItemProviderAdapterFactory"
+            uri="http:///org/eclipse/datatools/modelbase/sql/constraints.ecore"
+            supportedTypes = 
+         "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
+          org.eclipse.emf.edit.provider.IStructuredItemContentProvider
+          org.eclipse.emf.edit.provider.ITreeItemContentProvider
+          org.eclipse.emf.edit.provider.IItemLabelProvider
+          org.eclipse.emf.edit.provider.IItemPropertySource" />
+   </extension>
+<extension point="org.eclipse.ui.menus" id="context-menus">
+      <?gmfgen generated="true"?>
+      <!-- menuContribution locationURI="menu:org.eclipse.ui.main.menu?after=">
+      </menuContribution>
+      <menuContribution locationURI="toolbar:org.eclipse.ui.main.toolbar?after=">
+      </menuContribution -->
+      <menuContribution locationURI="popup:org.eclipse.gmf.runtime.diagram.ui.DiagramEditorContextMenu">
+         <command commandId="es.cv.gvcase.mdt.db.diagram.LoadResourceAction">
+            <visibleWhen>
+              <with variable="selection"><iterate ifEmpty="false"> 
+                 <instanceof value="es.cv.gvcase.mdt.db.diagram.edit.parts.SchemaEditPart"/>
+              </iterate></with>
+            </visibleWhen>
+         </command>
+         <command commandId="es.cv.gvcase.mdt.db.diagram.CreateShortcutAction">
+            <visibleWhen>
+              <with variable="selection"><iterate ifEmpty="false"> 
+                 <instanceof value="es.cv.gvcase.mdt.db.diagram.edit.parts.SchemaEditPart"/>
+              </iterate></with>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+   </extension>
+
+<extension point="org.eclipse.ui.commands" id="menu-commands">
+      <?gmfgen generated="true"?>
+      <category id="es.cv.gvcase.mdt.db.diagram.part.SqlmodelDiagramEditorID" name="%cmdcategory.name" description="%cmdcategory.desc"/>
+      <command id="es.cv.gvcase.mdt.db.diagram.LoadResourceAction"
+         name="Load Resource"
+         categoryId="es.cv.gvcase.mdt.db.diagram.part.SqlmodelDiagramEditorID"
+         defaultHandler="es.cv.gvcase.mdt.db.diagram.part.LoadResourceAction"/>
+      <command id="es.cv.gvcase.mdt.db.diagram.CreateShortcutAction"
+         name="Create Shortcut..."
+         categoryId="es.cv.gvcase.mdt.db.diagram.part.SqlmodelDiagramEditorID"
+         defaultHandler="es.cv.gvcase.mdt.db.diagram.part.CreateShortcutAction"/>
+   </extension>
+
+<extension point="org.eclipse.ui.handlers" id="menu-handlers">
+      <?gmfgen generated="true"?>
+   </extension>
+<extension
+      point="es.cv.gvcase.mdt.common.typesForDomainFactory">
+   <TypesFactory
+         editorID="es.cv.gvcase.mdt.db.diagram.part.SqlmodelDiagramEditorID"
+         factoryClass="es.cv.gvcase.mdt.db.diagram.part.SQLAbstractTypesFactory"
+         factoryID="es.cv.gvcase.mdt.db.diagram.typesfactory.SQLAbstractTypesFactoryID">
+   </TypesFactory>
+</extension>
+<extension
+      point="es.cv.gvcase.mdt.common.clipboardhandlers">
+   <ClipboardHandler
+         clipboardhandlerClass="es.cv.gvcase.mdt.db.diagram.action.handlers.DBClipboardActionHandler"
+         modelID="Sqlmodel">
+   </ClipboardHandler>
+</extension>
+<extension id="diagnostic" name="MOSKitt UML Class Diagram Editor problems" point="org.eclipse.core.resources.markers">
+      <?gmfgen generated="true"?>
+      <super type="org.eclipse.core.resources.problemmarker"/>
+      <super type="org.eclipse.gmf.runtime.common.ui.services.marker"/>
+      <persistent value="true"/>
+   </extension>
+   <extension point="org.eclipse.emf.validation.constraintProviders">
+      <?gmfgen generated="true"?>
+            <category id="MOSKitt_DB_diagram_constraints" mandatory="false" name="MOSKitt DB diagram constraints">
+         <![CDATA[UML2 Class diagram constraints]]>
+      </category>
+      <category id="MOSKitt_DB_diagram_constraints/MOSKItt_DB_diagram_constraints_LIVE" mandatory="false" name="Live MOSKitt DB diagram constraints">
+         <![CDATA[UML2 Class diagram live constraints]]>
+      </category>
+      <constraintProvider cache="true">
+         <package namespaceUri="http:///org/eclipse/datatools/modelbase/sql/schema.ecore"/>
+                  <package
+               namespaceUri="http:///org/eclipse/datatools/modelbase/sql/constraints.ecore">
+         </package>
+         <package
+               namespaceUri="http:///org/eclipse/datatools/modelbase/sql/datatypes.ecore">
+         </package>
+         <package
+               namespaceUri="http:///org/eclipse/datatools/modelbase/sql/expressions.ecore">
+         </package>
+         <package
+               namespaceUri="http:///org/eclipse/datatools/modelbase/sql/routines.ecore">
+         </package>
+         <package
+               namespaceUri="http:///org/eclipse/datatools/modelbase/sql/statements.ecore">
+         </package>
+         <package
+               namespaceUri="http:///org/eclipse/datatools/modelbase/sql/tables.ecore">
+         </package>
+         <package
+               namespaceUri="http:///org/eclipse/datatools/modelbase/sql/accesscontrol.ecore">
+         </package>
+               <constraints categories="MOSKitt_DB_diagram_constraints">
+                  </constraints>
+         <constraints categories="MOSKitt_DB_diagram_constraints/MOSKItt_DB_diagram_constraints_LIVE">
+                  <constraint id="unique_name_in_model_container"
+            lang="Java" class="es.cv.gvcase.mdt.db.diagram.providers.SqlmodelValidationProvider$Adapter1"
+            name="Unique name in model container"
+            mode="Live"
+            severity="ERROR" statusCode="200">
+            
+            <description><![CDATA[Checks that an element's name is unique in it's container]]></description>
+            <message><![CDATA[Another elements exists with that name]]></message>
+            <target class="uml.NamedElement"/>
+         </constraint>
+                  </constraints>
+      </constraintProvider>
+   </extension>
+   <extension point="org.eclipse.emf.validation.constraintBindings">
+      <?gmfgen generated="true"?>
+      <clientContext default="false" id="es.cv.gvcase.mdt.db.diagram.defaultCtx">
+         <selector class="es.cv.gvcase.mdt.db.diagram.providers.SqlmodelValidationProvider$DefaultCtx"/>
+      </clientContext>
+      <binding context="es.cv.gvcase.mdt.db.diagram.defaultCtx">
+                  <constraint ref="es.cv.gvcase.mdt.db.diagram.unique_name_in_model_container"/>
+               </binding>
+
+   </extension>
+</plugin>

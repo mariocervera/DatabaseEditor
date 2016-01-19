@@ -1,0 +1,7 @@
+# Tracing options for the es.cv.gvcase.mdt.db.diagram plug-in
+
+# Common issues
+es.cv.gvcase.mdt.db.diagram/debug=false
+
+# Visual IDs
+es.cv.gvcase.mdt.db.diagram/debug/visualID=false
