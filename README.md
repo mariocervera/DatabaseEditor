@@ -1,4 +1,4 @@
-# DatabaseEditor
+# Database Editor
 
 This repository contains a set of Eclipse plug-ins that implement a graphical database editor. This
 editor allows the user to define database schemas (i.e., the structure of the database in terms of
