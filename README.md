@@ -15,7 +15,7 @@ The editor is distributed as part of the MOSKitt tool (https://www.prodevelop.es
 
 https://www.dropbox.com/s/2l9c73qst7718yh/moskitt-1.3.10.zip?dl=0
 
-The database editor was developed using version 3.5 of the Eclipse Modeling Tools. Alternatively, the following steps can be followed to execute the database editor outside of MOSKitt:
+The database editor was developed using version 3.5 of the Eclipse Modeling Tools. If you want to try the database editor outside of MOSKitt, you must perform the following steps:
 
 1. Download the Eclipse Modeling Tools from http://www.eclipse.org/downloads/packages/release/Galileo/SR2
 2. Import the plug-ins of this repository (both in the root folder and the DEPENDENCIES folder) into the Eclipse workspace.
