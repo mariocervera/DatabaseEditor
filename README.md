@@ -19,6 +19,6 @@ The database editor was developed using version 3.5 of the Eclipse Modeling Tool
 
 1. Download the Eclipse Modeling Tools from http://www.eclipse.org/downloads/packages/release/Galileo/SR2
 2. Import the plug-ins of this repository (both in the root folder and the DEPENDENCIES folder) into the Eclipse workspace.
-3. Extract the content of the file "dropins.zip" into the "dropins" folder of Eclipse.
+3. Extract the content of the "dropins.zip" file into the "dropins" folder of Eclipse.
 4. Run a second instance of Eclipse (Run as -> Eclipse Application).
 5. In this second instance, create a file of type "MOSKitt Sqlmodel Diagram".
