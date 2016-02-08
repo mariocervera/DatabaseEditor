@@ -14,3 +14,11 @@ https://www.youtube.com/watch?v=kq8pBGw7kBc
 The editor is distributed as part of the MOSKitt tool (https://www.prodevelop.es/en/products/MOSKitt). A Windows version of MOSKitt can be downloaded from:
 
 https://www.dropbox.com/s/2l9c73qst7718yh/moskitt-1.3.10.zip?dl=0
+
+The database editor was developed using version 3.5 of the Eclipse Modeling Tools. Alternatively, the following steps can be followed to execute the database editor outside of MOSKitt:
+
+1. Download the Eclipse Modeling Tools from http://www.eclipse.org/downloads/packages/release/Galileo/SR2
+2. Import the plug-ins of this repository (both in the root folder and the DEPENDENCIES folder) into the Eclipse workspace.
+3. Extract the content of the file "dropins.zip" into the "dropins" folder of Eclipse.
+4. Run a second instance of Eclipse (Run as -> Eclipse Application).
+5. In this second instance, create a file of type "MOSKitt Sqlmodel Diagram".
