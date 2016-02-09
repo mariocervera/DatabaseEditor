@@ -7,7 +7,7 @@ generate (DDL) code for PostgreSQL. To develop this editor, I used Java and also
 technologies such as the Eclipse Modeling Framework (EMF), the Eclipse Graphical Modeling Framework (GMF),
 and a model-to-text transformation language: Xpand.
 
-The following video provides an introduction to the editor:
+The following video provides an introduction to the database editor:
 
 https://www.youtube.com/watch?v=kq8pBGw7kBc
 
